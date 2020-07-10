@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_10_200213) do
+ActiveRecord::Schema.define(version: 2020_07_10_211517) do
 
   create_table "brew_logs", force: :cascade do |t|
     t.integer "user_id"
@@ -26,6 +26,32 @@ ActiveRecord::Schema.define(version: 2020_07_10_200213) do
     t.string "srm"
     t.string "mash_ph"
     t.string "mash_schedule"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fermentables", force: :cascade do |t|
+    t.string "name"
+    t.integer "recipe_id"
+    t.integer "brewlog_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "hops", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.string "alpha_acid"
+    t.integer "recipe_id"
+    t.integer "brewlog_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "other_ingredients", force: :cascade do |t|
+    t.string "name"
+    t.integer "recipe_id"
+    t.integer "brewlog_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -51,6 +77,14 @@ ActiveRecord::Schema.define(version: 2020_07_10_200213) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "yeasts", force: :cascade do |t|
+    t.string "name"
+    t.integer "recipe_id"
+    t.integer "brewlog_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

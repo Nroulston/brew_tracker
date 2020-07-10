@@ -1,4 +1,4 @@
-class CreateBrewLogs < ActiveRecord::Migration
+class CreateBrewLogs < ActiveRecord::Migration[4.2]
   def change
     create_table :brew_logs do |t|
       t.integer :user_id
