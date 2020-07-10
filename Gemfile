@@ -13,6 +13,7 @@ gem 'pry'
 gem 'pry-nav'
 gem 'bcrypt'
 gem 'tux'
+gem 'rails-erd'
 
 group :test do
   gem 'rspec'
