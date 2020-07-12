@@ -1,0 +1,19 @@
+<form action="/recipes" method="post">
+  Recipe name: <input type="text" name="recipe[name]" id="recipename">
+  Method: <input type="text" name="recipe[method]" id="method">
+  Boil time: <input type="text" name="recipe[boil_time]" id="">
+  Batch size: <input type="text" name="recipe[batch_size]" id="batch_size">
+  Pre-boil size: <input type="text" name="recipe[pre_boil_size]" id="pre_boil">
+  Target Final Gravity: <input type="text" name="recipe[target_fg]" id="target_fg">
+  Target Original Gravity <input type="text" name="recipe[target_og]" id="target_og">
+  Mash Ph: <input type="text" name="recipe[mash_ph]" id="mash_ph">
+  Mash schedule <input type="text" name="recipe[mash_schedule]" id="mash_schedule">
+  Hop used: <input type="text" name="hop[][name]" id="hopname">
+  Hop type: <input type="text" name="hop[][type]" id="hoptype">
+  Alpha Acid: <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid">
+  Time added: <input type="text" name="hop[][time_added]" id="hop_time_added">
+  Hop weight: <input type="text" name="hop[][measurement_qty]" id="hop1_measurement_quantity">
+  <%# Todo make this a drop down%> 
+  <input type="text" name="hop[][measurment]" id="hop1_measurement">
+  <input type="submit" >
+</form>
