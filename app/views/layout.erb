@@ -20,7 +20,7 @@
           <% unless logged_in? %>
             <li><a href="/login">Login</a></li>
           <% else %>
-            <li><%= current_user.username %></li>
+            <li><%= current_user.name %></li>
             <li><a href="/logout">Logout</a></li>
           <% end %>
         <%= yield %>
