@@ -14,7 +14,8 @@ gem 'pry-nav'
 gem 'bcrypt'
 gem 'tux'
 gem 'rails-erd', '~> 1.6' , group: :development
-
+gem 'dotenv'
+gem 'rack-flash3'
 
 group :test do
   gem 'rspec'

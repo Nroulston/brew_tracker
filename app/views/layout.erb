@@ -15,7 +15,14 @@
   </head>
   <body>
     <div class="wrapper">
-
+          <ul>
+            <li><h2>Brew Tracker Online</h2></li>
+          <% unless logged_in? %>
+            <li><a href="/login">Login</a></li>
+          <% else %>
+            <li><%= current_user.username %></li>
+            <li><a href="/logout">Logout</a></li>
+          <% end %>
         <%= yield %>
 
       <footer class="branding">
