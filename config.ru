@@ -8,5 +8,5 @@ end
 use Rack::MethodOverride
 
 use BrewLogsController
-
+use SessionsController
 run ApplicationController
