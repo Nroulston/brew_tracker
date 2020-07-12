@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 2020_07_12_151843) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "measuremennts", force: :cascade do |t|
-    t.string "measurement"
+  create_table "measurements", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_07_12_151843) do
   create_table "recipe_fermentables", force: :cascade do |t|
     t.integer "fermentable_id"
     t.integer "recipe_id"
+    t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
     t.integer "measurement_qty_id"
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 2020_07_12_151843) do
   create_table "recipe_hops", force: :cascade do |t|
     t.integer "hop_id"
     t.integer "recipe_id"
+    t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
     t.integer "measurement_qty_id"
@@ -86,6 +88,7 @@ ActiveRecord::Schema.define(version: 2020_07_12_151843) do
   create_table "recipe_other_ingredients", force: :cascade do |t|
     t.integer "other_ingredient_id"
     t.integer "recipe_id"
+    t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
     t.integer "measurement_qty_id"
@@ -96,6 +99,7 @@ ActiveRecord::Schema.define(version: 2020_07_12_151843) do
   create_table "recipe_yeasts", force: :cascade do |t|
     t.integer "yeast_id"
     t.integer "recipe_id"
+    t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
     t.integer "measurement_qty_id"
