@@ -45,14 +45,14 @@ ActiveRecord::Schema.define(version: 2020_07_12_151843) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "measurements", force: :cascade do |t|
-    t.string "name"
+  create_table "measurement_qties", force: :cascade do |t|
+    t.integer "measurement_qty"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "measurment_qties", force: :cascade do |t|
-    t.integer "measurement_qty"
+  create_table "measurements", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

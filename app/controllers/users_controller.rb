@@ -9,7 +9,6 @@ class UsersController < ApplicationController
     
     @user = User.new(params[:user])
     if @user.save
-      binding.pry
       session[:user_id] = @user.id
       #Todo create profile and ability to edit. Possibly use a seperate controller and views.
       redirect '/recipes'
