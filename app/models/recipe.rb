@@ -1,23 +1,20 @@
 class Recipe < ActiveRecord::Base
-  has_many :recipe_other_ingredients
-  has_many :recipe_yeasts 
-  has_many :recipe_fermentables
-  has_many :recipe_hops
-
-  has_many :hops, through: :recipe_hops
-  has_many :time_addeds, through: :recipe_hops
-  has_many :measurements, through: :recipe_hops
-  has_many :measurement_qtys, through: :recipe_hops
-
-  has_many :other_ingredients, through: :recipe_other_ingredients
-  has_many :yeasts, through: :recipe_yeasts
-  has_many :fermentables, through: :recipe_fermentables
-  
+  validates :name, presence: true, uniqueness: true
 
   has_many :brew_logs
   belongs_to :user
+  
+  has_many :recipe_other_ingredients
+  has_many :other_ingredients, through: :recipe_other_ingredients
 
-  validates :name, presence: true, uniqueness: true
+  has_many :recipe_yeasts 
+  has_many :yeasts, through: :recipe_yeasts
+
+  has_many :recipe_fermentables
+  has_many :fermentables, through: :recipe_fermentables
+
+  has_many :recipe_hops
+  has_many :hops, through: :recipe_hops
 end
 
 #Todo need to use the following sql or something similar to add each foreign key into the Recipe_hop join table 
@@ -36,3 +33,6 @@ end
 #     remove_column :recipe_hops, :updated_at
 #   end
 # end
+
+
+# SELECT "measurement_qties".* FROM "measurement_qties" INNER JOIN "recipe_fermentables" ON "measurement_qties"."id" = "recipe_fermentables"."measurement_qty_id" WHERE "recipe_fermentables"."recipe_id" = ?  [["recipe_id", 1]]

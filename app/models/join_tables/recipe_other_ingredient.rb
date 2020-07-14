@@ -4,5 +4,5 @@ class RecipeOtherIngredient < ActiveRecord::Base
   belongs_to :brewlog
   belongs_to :time_added
   belongs_to :measurement
-  belongs_to :measurement_qty
+  belongs_to :measurement_amount
 end
