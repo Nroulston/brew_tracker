@@ -9,6 +9,13 @@ class RecipesController < ApplicationController
   end
 
   post "/recipes" do
+  #create a new recipe
+  recipe = Recipe.new(params[:recipe])
+  recipe.save
+  #associate or create a hop
+  
+  #associate or create time_added, measurement_amount
+
     binding.pry
     redirect "/recipes"
   end
