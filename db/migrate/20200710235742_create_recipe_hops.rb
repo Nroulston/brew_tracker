@@ -6,7 +6,7 @@ class CreateRecipeHops < ActiveRecord::Migration[4.2]
       t.integer :brew_log_id
       t.integer :time_added_id
       t.integer :measurement_id
-      t.integer :measurement_qty_id
+      t.integer :measurement_amount_id
 
       t.timestamps null: false
     end

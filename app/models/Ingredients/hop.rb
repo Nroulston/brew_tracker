@@ -1,5 +1,6 @@
 class Hop < ActiveRecord::Base
   
+  
 has_many :recipe_hops
 
 has_many :measurements, through: :recipe_hops

@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2020_07_14_232854) do
   end
 
   create_table "measurements", force: :cascade do |t|
-    t.string "name"
+    t.string "measurement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2020_07_14_232854) do
     t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
-    t.integer "measurement_qty_id"
+    t.integer "measurement_amount_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2020_07_14_232854) do
     t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
-    t.integer "measurement_qty_id"
+    t.integer "measurement_amount_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 2020_07_14_232854) do
     t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
-    t.integer "measurement_qty_id"
+    t.integer "measurement_amount_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 2020_07_14_232854) do
     t.integer "brew_log_id"
     t.integer "time_added_id"
     t.integer "measurement_id"
-    t.integer "measurement_qty_id"
+    t.integer "measurement_amount_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
