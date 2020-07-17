@@ -9,13 +9,34 @@
   Target Original Gravity <input type="text" name="recipe[target_og]" id="target_og">
   Mash Ph: <input type="text" name="recipe[mash_ph]" id="mash_ph">
   Mash schedule <input type="text" name="recipe[mash_schedule]" id="mash_schedule">
+  <br>
   Hop used: <input type="text" name="hop[][name]" id="hopname">
   Hop type: <input type="text" name="hop[][form]" id="hoptype">
   Alpha Acid: <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid">
-  Time added: <input type="text" name="hop[][time_added]" id="hop_time_added">
+  Time added: <input type="text" name="hop[][time_added]" id="hop1_time_added">
   Hop weight: <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity">
   <%# Todo make this a drop down%> 
   <input type="text" name="hop[][measurement]" id="hop1_measurement">
+  <br>
+  Grain used: <input type="text" name="fermentable[][name]" id="fermentablename">
+  <%# Time added: <input type="text" name="fermentable[][time_added]" id="fermentable1_time_added"> %>
+  Grain weight: <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity">
+  <%# Todo make this a drop down%> 
+  <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement">
+  <br>
+  Yeast used: <input type="text" name="yeast[][name]" id="yeast_name">
+  Time added: <input type="text" name="yeast[][time_added]" id="yeast1_time_added">
+  Yeast measurement: <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity">
+  <%# Todo make this a drop down%> 
+  <input type="text" name="yeast[][measurement]" id="yeast1_measurement">
+
+  <br>
+  Other Ingredient used: <input type="text" name="other_ingredient[][name]" id="other_ingredient_name">
+  Time added: <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added">
+  Other Ingredient measurement: <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity">
+  <%# Todo make this a drop down%> 
+  <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement">
+
   <input type="submit" >
 </form>
 

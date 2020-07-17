@@ -12,44 +12,73 @@ class RecipesController < ApplicationController
   #create a new recipe
   recipe = Recipe.new(params[:recipe])
   recipe.save
-  #associate or create a hop takes on hop and make it. If you figure out jquery creation of form inputs then you need to change below to an each do block to create find or create each hop.
+  
+  # Todo If you figure out jquery creation of form inputs then you need to change below to an each do block to create find or create each ingredient.
+ 
+  # Todo potentially use .send to make Hop.find_or_create_by dynamic for all ingredients def set_property(obj, prop_name, prop_value) obj.send("#{prop_name}=",prop_value) end potentially use hashes build out an attr accessor with hash of ingredients with classname, params accessors, join_tables, basically all things that might be variable per ingredient. This would allow you to make only one change to the ingredients hash to make changes to the entire process. 
   
   hop = Hop.find_or_create_by(name: params[:hop][0][:name], form: params[:hop][0][:form], alpha_acid: params[:hop][0][:alpha_acid])
-  recipe.hops << hop  
+  recipe.hops << hop 
   join_hop = RecipeHop.last
+  add_time_measurement_and_measurement_quantity_to_join_table_record(join_hop, :hop)
   
-  time = TimeAdded.find_or_create_by(time_added: params[:hop][0][:time_added])
-  join_hop.time_added = time
-
-  measurement = Measurement.find_or_create_by(measurement: params[:hop][0][:measurement])
-  join_hop.measurement = measurement
-
-  measurement_amount = MeasurementAmount.find_or_create_by(measurement_amount: params[:hop][0][:measurement_amount])
-  join_hop.measurement_amount = measurement_amount
+  fermentable = Fermentable.find_or_create_by(name: params[:fermentable][0][:name])
+  recipe.fermentables << fermentable
+  join_fermentable = RecipeFermentable.last
+  add_time_measurement_and_measurement_quantity_to_join_table_record(join_fermentable, :fermentable)
   
-  join_hop.time_added
-    binding.pry
-    redirect "/recipes"
-  end
+  yeast = Yeast.find_or_create_by(name: params[:yeast][0][:name])
+  recipe.yeasts << yeast
+  join_yeast = RecipeYeast.last
+  add_time_measurement_and_measurement_quantity_to_join_table_record(join_yeast, :yeast)
+  
+  other_ingredient = OtherIngredient.find_or_create_by(name: params[:other_ingredient][0][:name])
+  recipe.other_ingredients << other_ingredient
+  join_other_ingredient = RecipeOtherIngredient.last
+  add_time_measurement_and_measurement_quantity_to_join_table_record(join_other_ingredient, :other_ingredient)
 
-  get "/recipes/:id" do
-    erb :"/recipes/show.html"
-  end
 
-  get "/recipes/:id/edit" do
+  
+  redirect "/recipes"
+end
 
-    #Use the below to access a recipes hops join table and also the associated attribute objects. 
-    #use recipe = whatever you need to find the current recipe
-    #recipe.recipe_hops.first.time_added 
+get "/recipes/:id" do
+  @recipe = Recipe.find_by(id: params[:id])
+  
+  erb :"/recipes/show.html"
+end
 
-    erb :"/recipes/edit.html"
-  end
+get "/recipes/:id/edit" do
+  
+  #Use the below to access a recipes hops join table and also the associated attribute objects. 
+  #use recipe = whatever you need to find the current recipe
+  #recipe.recipe_hops.first.time_added 
+  
+  erb :"/recipes/edit.html"
+end
 
-  patch "/recipes/:id" do
-    redirect "/recipes/:id"
-  end
+patch "/recipes/:id" do
+  redirect "/recipes/:id"
+end
 
-  delete "/recipes/:id/delete" do
-    redirect "/recipes"
+delete "/recipes/:id/delete" do
+  redirect "/recipes"
+end
+
+  helpers do
+    def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, ingredient)
+      time, measurement, measurement_amount = make_or_find_time_measurement_measurement_amount_from_params(ingredient)
+      join_table.time_added = time
+      join_table.measurement = measurement
+      join_table.measurement_amount = measurement_amount
+      join_table.save
+    end
+
+    def make_or_find_time_measurement_measurement_amount_from_params(ingredient)
+      time = TimeAdded.find_or_create_by(time_added: params[ingredient][0][:time_added])
+      measurement = Measurement.find_or_create_by(measurement: params[ingredient][0][:measurement])
+      measurement_amount = MeasurementAmount.find_or_create_by(measurement_amount: params[ingredient][0][:measurement_amount])
+      return time,measurement,measurement_amount
+    end
   end
 end

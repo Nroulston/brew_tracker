@@ -1,1 +1,8 @@
 <h1>This is the Model's index page.</h1>
+<ol>
+<%Recipe.all.each do |recipe|%>
+<li> <%=recipe.name%></li><br>
+<%end%>
+</ol>
+
+
