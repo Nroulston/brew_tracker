@@ -14,6 +14,7 @@
     </div>
     <br>
     <div>
+    <h3>Hops</h3>
       <% @recipe.recipe_hops.each do |hop|%>
         Hop used: <input type="text" name="hop[][name]" id="hopname" value="<%= hop.hop.name%>">
         Hop type: <input type="text" name="hop[][form]" id="hoptype" value="<%= hop.hop.form%>">
@@ -22,6 +23,7 @@
         Hop weight: <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity" value="<%= hop.measurement_amount.measurement_amount%>">
         <%# Todo make this a drop down%> 
         <input type="text" name="hop[][measurement]" id="hop1_measurement" value="<%= hop.measurement.measurement%>">
+      <%end%>
       <h3>Add Hop</h3>
         Hop used: <input type="text" name="hop[][name]" id="hopname">
         Hop type: <input type="text" name="hop[][form]" id="hoptype">
@@ -30,12 +32,12 @@
         Hop weight: <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity">
         <%# Todo make this a drop down%> 
         <input type="text" name="hop[][measurement]" id="hop1_measurement">
-      <%end%>
     </div>
 
     <div>
+    <h3>Grain </h3>
       <% @recipe.recipe_fermentables.each do |grain|%>
-        Grain used: <input type="text" name="fermentable[][name]" id="fermentablename"value="<%= grain.fermentable.name%>"> 
+        Grain used: <input type="text" name="fermentable[][name]" id="fermentablename" value="<%= grain.fermentable.name%>"> 
         Grain weight: <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity"value="<%= grain.measurement_amount.measurement_amount%>">
         <%# Todo make this a drop down%value="<%= grain.time_added.time_added%>
         <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement"value="<%= grain.measurement.measurement%>">
@@ -51,6 +53,7 @@
     </div>
 
     <div>
+    <h3>Yeast</h3>
       <% @recipe.recipe_yeasts.each do |yeast|%>
         
         Yeast used: <input type="text" name="yeast[][name]" id="yeast_name"value="<%= yeast.yeast.name%>">
@@ -69,6 +72,7 @@
     </div>
     <br>
     <div>
+    <h3>Other Ingredients</h3>
       <% @recipe.recipe_other_ingredients.each do |ingredient|%>
         Other Ingredient used: <input type="text" name="other_ingredient[][name]" id="other_ingredient_name"value="<%= ingredient.other_ingredient.name%>">
         Time added: <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added"value="<%= ingredient.time_added.time_added%>">
