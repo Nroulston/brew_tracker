@@ -55,6 +55,9 @@ get "/recipes/:id/edit" do
 end
 
 patch "/recipes/:id" do
+  set_recipe
+  table_hop = @recipe.recipe_hops
+  #todo need to test if when editing a recipe with no hops that there is a recipe_hops join table that can be accessed before adding the new hop to the association.
   redirect "/recipes/:id"
 end
 
@@ -67,7 +70,7 @@ end
     def set_recipe
       @recipe = Recipe.find_by_id(params[:id])
     end
-    
+
     def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, ingredient)
       time, measurement, measurement_amount = make_or_find_time_measurement_measurement_amount_from_params(ingredient)
       join_table.time_added = time

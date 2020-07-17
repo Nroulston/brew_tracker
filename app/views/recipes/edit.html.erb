@@ -1,1 +1,89 @@
-<h1>Insert the form to edit an instance of your model here.</h1>
+<form action="/recipe/<%= @recipe.id %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+    <div>
+      Recipe name: <input type="text" name="recipe[name]" id="recipename"value="<%= @recipe.name %>" >
+      Method: <input type="text" name="recipe[method]" id="method"value="<%= @recipe.method %>">
+      Boil time: <input type="text" name="recipe[boil_time]" id=""value="<%= @recipe.boil_time %>">
+      Batch size: <input type="text" name="recipe[batch_size]" id="batch_size"value="<%= @recipe.batch_size %>">
+      Pre-boil size: <input type="text" name="recipe[pre_boil_size]" id="pre_boil"value="<%= @recipe.pre_boil_size %>">
+      Pre-boil Gravity: <input type="text" name="recipe[pre_boil_gravity]" id="pre_boil_gravity"value="<%= @recipe.pre_boil_gravity %>">
+      Target Final Gravity: <input type="text" name="recipe[target_fg]" id="target_fg"value="<%= @recipe.target_fg %>">
+      Target Original Gravity <input type="text" name="recipe[target_og]" id="target_og"value="<%= @recipe.target_og %>">
+      Mash Ph: <input type="text" name="recipe[mash_ph]" id="mash_ph"value="<%= @recipe.mash_ph %>">
+      Mash schedule <input type="text" name="recipe[mash_schedule]" id="mash_schedule"value="<%= @recipe.mash_schedule %>">
+    </div>
+    <br>
+    <div>
+      <% @recipe.recipe_hops.each do |hop|%>
+        Hop used: <input type="text" name="hop[][name]" id="hopname" value="<%= hop.hop.name%>">
+        Hop type: <input type="text" name="hop[][form]" id="hoptype" value="<%= hop.hop.form%>">
+        Alpha Acid: <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid" value="<%= hop.hop.alpha_acid%>">
+        Time added: <input type="text" name="hop[][time_added]" id="hop1_time_added" value="<%= hop.time_added.time_added%>">
+        Hop weight: <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity" value="<%= hop.measurement_amount.measurement_amount%>">
+        <%# Todo make this a drop down%> 
+        <input type="text" name="hop[][measurement]" id="hop1_measurement" value="<%= hop.measurement.measurement%>">
+      <h3>Add Hop</h3>
+        Hop used: <input type="text" name="hop[][name]" id="hopname">
+        Hop type: <input type="text" name="hop[][form]" id="hoptype">
+        Alpha Acid: <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid">
+        Time added: <input type="text" name="hop[][time_added]" id="hop1_time_added">
+        Hop weight: <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity">
+        <%# Todo make this a drop down%> 
+        <input type="text" name="hop[][measurement]" id="hop1_measurement">
+      <%end%>
+    </div>
+
+    <div>
+      <% @recipe.recipe_fermentables.each do |grain|%>
+        Grain used: <input type="text" name="fermentable[][name]" id="fermentablename"value="<%= grain.fermentable.name%>"> 
+        Grain weight: <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity"value="<%= grain.measurement_amount.measurement_amount%>">
+        <%# Todo make this a drop down%value="<%= grain.time_added.time_added%>
+        <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement"value="<%= grain.measurement.measurement%>">
+      <%end%>
+      <br>
+      <h3>Add Grain</h3>
+        Grain used: <input type="text" name="fermentable[][name]" id="fermentablename">
+        <%# Time added: <input type="text" name="fermentable[][time_added]" id="fermentable1_time_added"> %>
+        Grain weight: <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity">
+        <%# Todo make this a drop down%> 
+        <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement">
+      <br>
+    </div>
+
+    <div>
+      <% @recipe.recipe_yeasts.each do |yeast|%>
+        
+        Yeast used: <input type="text" name="yeast[][name]" id="yeast_name"value="<%= yeast.yeast.name%>">
+        Time added: <input type="text" name="yeast[][time_added]" id="yeast1_time_added"value="<%= yeast.time_added.time_added%>">
+        Yeast measurement: <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity"value="<%= yeast.measurement_amount.measurement_amount%>">
+        <%# Todo make this a drop down%value="<%= yeast.measurement.measurement%>"> 
+        <input type="text" name="yeast[][measurement]" id="yeast1_measurement"value="<%= yeast.measurement.measurement%>">
+      <%end%>
+      <br>
+      <h3>Add Yeast</h3>
+        Yeast used: <input type="text" name="yeast[][name]" id="yeast_name">
+        Time added: <input type="text" name="yeast[][time_added]" id="yeast1_time_added">
+        Yeast measurement: <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity">
+        <%# Todo make this a drop down%> 
+        <input type="text" name="yeast[][measurement]" id="yeast1_measurement">
+    </div>
+    <br>
+    <div>
+      <% @recipe.recipe_other_ingredients.each do |ingredient|%>
+        Other Ingredient used: <input type="text" name="other_ingredient[][name]" id="other_ingredient_name"value="<%= ingredient.other_ingredient.name%>">
+        Time added: <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added"value="<%= ingredient.time_added.time_added%>">
+        Measurement: <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity"value="<%= ingredient.measurement_amount.measurement_amount%>">
+        <%# Todo make this a drop down%value="<%= ingredient.measurement.measurement%> 
+        <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement"value="<%= ingredient.measurement.measurement%>">
+      <%end%>
+      <br>
+      <h3>Add Ingredient</h3>
+        Other Ingredient used: <input type="text" name="other_ingredient[][name]" id="other_ingredient_name">
+        Time added: <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added">
+        Measurement: <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity">
+        <%# Todo make this a drop down%> 
+        <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement">
+    </div>
+
+  <input type="submit" value="Update Recipe">
+</form>
