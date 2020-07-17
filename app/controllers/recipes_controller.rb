@@ -55,6 +55,7 @@ get "/recipes/:id/edit" do
 end
 
 patch "/recipes/:id" do
+  binding.pry
   set_recipe
   table_hop = @recipe.recipe_hops
   #todo need to test if when editing a recipe with no hops that there is a recipe_hops join table that can be accessed before adding the new hop to the association.

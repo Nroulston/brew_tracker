@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_14_232854) do
+ActiveRecord::Schema.define(version: 2020_07_17_162042) do
 
   create_table "brew_logs", force: :cascade do |t|
     t.integer "user_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2020_07_14_232854) do
     t.string "alpha_acid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "form", "alpha_acid"], name: "index_hops_on_name_and_form_and_alpha_acid", unique: true
   end
 
   create_table "measurement_amounts", force: :cascade do |t|

@@ -1,4 +1,6 @@
 class Fermentable < ActiveRecord::Base
+  validates :name, uniqueness: true
+  
   has_many :recipe_fermentables
 
   has_many :recipes, through: :recipe_fermentables

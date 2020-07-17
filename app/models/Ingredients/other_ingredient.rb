@@ -1,4 +1,5 @@
 class OtherIngredient < ActiveRecord::Base
+  validates :name, uniqueness: true
   has_many :recipe_other_ingredients
 
   has_many :measurements, through: :recipe_other_ingredients

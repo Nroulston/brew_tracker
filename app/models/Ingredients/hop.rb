@@ -1,5 +1,5 @@
 class Hop < ActiveRecord::Base
-  
+  validates :name, uniqueness: {scope: [:form, :alpha_acid]}
   
 has_many :recipe_hops
 
