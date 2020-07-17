@@ -43,16 +43,13 @@ class RecipesController < ApplicationController
 end
 
 get "/recipes/:id" do
-  @recipe = Recipe.find_by(id: params[:id])
-  
+  set_recipe
+
   erb :"/recipes/show.html"
 end
 
 get "/recipes/:id/edit" do
-  
-  #Use the below to access a recipes hops join table and also the associated attribute objects. 
-  #use recipe = whatever you need to find the current recipe
-  #recipe.recipe_hops.first.time_added 
+  set_recipe
   
   erb :"/recipes/edit.html"
 end
@@ -66,6 +63,11 @@ delete "/recipes/:id/delete" do
 end
 
   helpers do
+
+    def set_recipe
+      @recipe = Recipe.find_by_id(params[:id])
+    end
+    
     def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, ingredient)
       time, measurement, measurement_amount = make_or_find_time_measurement_measurement_amount_from_params(ingredient)
       join_table.time_added = time

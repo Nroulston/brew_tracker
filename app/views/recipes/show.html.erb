@@ -1,1 +1,24 @@
-<h1>This is the show page for an individual instance of your model.</h1>
+<h1><%=@recipe.name%></h1>
+<%=@recipe.method%>
+<%=@recipe.boil_time%>
+<%=@recipe.pre_boil_size%>
+<%=@recipe.pre_boil_gravity%>
+<%=@recipe.target_og%>
+<%=@recipe.target_fg%>
+<%=@recipe.ibu%>
+<%=@recipe.srm%>
+<%=@recipe.mash_ph%>
+<%=@recipe.mash_schedule%>
+
+<%@recipe.fermentables.each do |fermentable|%>
+<%end%>
+<%@recipe.recipe_hops.each do |hop|%>
+Hop name:<%=hop.hop.name%>
+Time added:<%=hop.time_added.time_added%>
+Amount<%=hop.measurement_amount.measurement_amount %>
+<%=hop.measurement.measurement%>
+<%end%>
+
+<%# todo turn into button %>
+<a href="/recipes/<%= @recipe.id %>/edit">Edit</a>
+<%#Todo Need to add create brewlog button  %>
