@@ -9,7 +9,9 @@ class BrewLogsController < ApplicationController
   get "/brew_logs/new/:id" do
     if logged_in?
     set_recipe
+   
     brew_log_creator
+    binding.pry
     redirect "brew_logs/#{@brew_log.id}"
     else
       redirect '/login'
@@ -24,7 +26,7 @@ class BrewLogsController < ApplicationController
   
   get "/brew_logs/:id" do
     set_brew_log 
-    
+    binding.pry
     if current_user == @brew_log.user 
       erb :"/brew_logs/show.html"
     else
@@ -63,29 +65,42 @@ class BrewLogsController < ApplicationController
   helpers do
     
     def brew_log_creator
-      @brew_log = current_user.brew_logs.build
+      recipe_dup = @recipe.dup
+      @brew_log = current_user.brew_logs.build(recipe_dup.attributes)
       @brew_log.save
       @recipe.brew_logs << @brew_log
       
-      @recipe.hops.each do |hop|
-        @brew_log.hops << hop
+      #todo  The below use of join tables will assign the join table directly, but that means that if you record is changed in the recipe that it will be changed for brew_log as well. Not bueno. You will have to revert to pushing the hop into the brew_log.hop array and then assigning all the values. Use the last join table record added and just assign the values manually
+      
+      
+      @recipe.recipe_hops.each do |hop_record|
+        hop_record_dup = hop_record.dup 
+        hop_record_dup.recipe = nil
+        @brew_log.recipe_hops << hop_record_dup
       end
 
-      @recipe.fermentables.each do |fermentable|
-        @brew_log.fermentables << fermentable
+      @recipe.recipe_fermentables.each do |fermentable_record|
+        fermentable_record_dup = fermentable_record.dup 
+        fermentable_record_dup.recipe = nil
+        @brew_log.recipe_fermentables << fermentable_record_dup
       end
 
-      @recipe.yeasts.each do |yeast|
-        @brew_log.yeasts << yeast
+      @recipe.recipe_yeasts.each do |yeast_record|
+        yeast_record_dup = yeast_record.dup 
+        yeast_record_dup.recipe = nil
+        @brew_log.recipe_yeasts << yeast_record_dup
       end
 
-      @recipe.other_ingredients.each do |other_ingredient|
-        @brew_log.other_ingredients << other_ingredient
+      @recipe.recipe_other_ingredients.each do |other_ingredient_record|
+        other_ingredient_record_dup = other_ingredient_record.dup 
+        other_ingredient_record_dup.recipe = nil
+        @brew_log.recipe_other_ingredients << other_ingredient_record_dup
       end
     end
-
+      #todo change the add to patch and change all references as well
     def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, index, ingredient )
       time, measurement, measurement_amount = make_or_find_time_measurement_measurement_amount_from_params(ingredient, index)
+      #todo change the below into a method and include it in this method
       join_table.time_added = time
       join_table.measurement = measurement
       join_table.measurement_amount = measurement_amount
