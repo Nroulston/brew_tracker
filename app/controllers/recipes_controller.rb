@@ -5,11 +5,15 @@ class RecipesController < ApplicationController
   end
 
   get '/recipes/new' do
-    erb :'/recipes/new.html'
+    if logged_in?
+      erb :'/recipes/new.html'
+    else
+      redirect '/login'
+    end
   end
 
   post '/recipes' do
-  #create a new recipe
+  
   @recipe = Recipe.new(params[:recipe])
   if @recipe.save
     current_user.recipes << @recipe
@@ -18,8 +22,6 @@ class RecipesController < ApplicationController
   end
 
   
-  # Todo If you figure out jquery creation of form inputs then you need to change below to an each do block to create find or create each ingredient.
- 
   # Todo potentially use .send to make Hop.find_or_create_by dynamic for all ingredients def set_property(obj, prop_name, prop_value) obj.send('#{prop_name}=',prop_value) end potentially use hashes build out an attr accessor with hash of ingredients with classname, params accessors, join_tables, basically all things that might be variable per ingredient. This would allow you to make only one change to the ingredients hash to make changes to the entire process. 
   
   
@@ -59,7 +61,7 @@ end
 get '/recipes/:id' do
   set_recipe
   if @recipe
-  erb :'/recipes/show.html'
+    erb :'/recipes/show.html'
   else
     redirect '/recipes'
   end
@@ -77,11 +79,8 @@ get '/recipes/:id/edit' do
 end
 
 patch '/recipes/:id' do
-  #Todo look up how to not run the next lines of code of the form submitted has no changes from it's initial value, or how to not run it for items that had no changes. Example hops didn't change at all, but extra ingredients changed the time they were added. 
-
-  #todo need to test if when editing a recipe with no hops that there is a recipe_hops join table that can be accessed before adding the new hop to the association.
+  #Todo look up how to not run the next lines of code if the form submitted has no changes from it's initial value, or how to not run it for items that had no changes. Example hops didn't change at all, but extra ingredients changed the time they were added. 
   
-
   set_recipe 
   if current_user && @recipe.update(params[:recipe]) 
     update_existing_recipe_hop_records!

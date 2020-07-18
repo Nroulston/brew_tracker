@@ -27,5 +27,8 @@ class ApplicationController < Sinatra::Base
       @recipe = Recipe.find_by_id(params[:id])
     end
     
+    def set_brew_log
+      @brew_log= BrewLog.find_by_id(params[:id])
+    end
   end
 end

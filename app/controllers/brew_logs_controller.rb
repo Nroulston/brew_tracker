@@ -1,16 +1,19 @@
 class BrewLogsController < ApplicationController
 
-  # GET: /brew_logs
-  get "/brew_logs" do
-    erb :"/brew_logs/index.html"
-  end
+  # don't need an index of all brew logs yet
+  # get "/brew_logs" do
+  #   erb :"/brew_logs/index.html"
+  # end
 
   
   get "/brew_logs/new/:id" do
+    if logged_in?
     set_recipe
-    binding.pry
     brew_log_creator
     redirect "brew_logs/#{@brew_log.id}"
+    else
+      redirect '/login'
+    end
   end
 
   
@@ -20,7 +23,11 @@ class BrewLogsController < ApplicationController
 
   
   get "/brew_logs/:id" do
-    erb :"/brew_logs/show.html"
+    set_brew_log 
+    if current_user == @brew_log_user 
+      erb :"/brew_logs/show.html"
+    else
+      redirect '/login'
   end
 
   
@@ -35,6 +42,8 @@ class BrewLogsController < ApplicationController
 
   
   delete "/brew_logs/:id/delete" do
+    set_brew_log
+    @brew_log.destroy
     redirect "/brew_logs"
   end
 
@@ -44,6 +53,7 @@ class BrewLogsController < ApplicationController
     def brew_log_creator
       @brew_log = current_user.brew_logs.build
       @brew_log.save
+      @recipe.brew_logs << @brew_log
       
       @recipe.hops.each do |hop|
         @brew_log.hops << hop
