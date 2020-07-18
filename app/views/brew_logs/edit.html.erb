@@ -1,9 +1,9 @@
-<form action="/recipes/<%= @brew_log.id %>" method="POST">
+<form action="/brew_logs/<%= @brew_log.id %>" method="POST">
   <input id="hidden" type="hidden" name="_method" value="patch">
     <div>
-    @brew_log.recipe.name
+    <%=@brew_log.recipe.name%>
     <br>
-    Brew_log Date: <%= @brew_log.create_at%>
+    Brew_log Date: <%= @brew_log.created_at%>
     </div>
     
     <div>

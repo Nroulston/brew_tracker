@@ -26,7 +26,7 @@ class BrewLogsController < ApplicationController
   
   get "/brew_logs/:id" do
     set_brew_log 
-    binding.pry
+    
     if current_user == @brew_log.user 
       erb :"/brew_logs/show.html"
     else
@@ -37,7 +37,6 @@ class BrewLogsController < ApplicationController
   
   get "/brew_logs/:id/edit" do
     set_brew_log
-    
     if current_user == @brew_log.user
      erb :"/brew_logs/edit.html"
     else
@@ -47,7 +46,28 @@ class BrewLogsController < ApplicationController
 
   
   patch "/brew_logs/:id" do
-    redirect "/brew_logs/:id"
+    set_brew_log
+    if current_user && @brew_log.update(params[:brew_log]) 
+      
+      update_existing_recipe_hop_records!
+    add_new_hops_and_establish_recipe_hop_record!
+  
+    update_existing_recipe_fermentable_records!
+    add_new_fermentable_and_establish_recipe_fermentable_record!
+  
+    update_existing_recipe_yeast_records!
+    add_new_yeast_and_establish_recipe_yeast_record!
+  
+    update_existing_recipe_other_ingredient_records!
+    add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
+     
+    redirect "/brew_logs/#{@brew_log.id}"
+      
+    else
+      erb :"/brew_logs/edit.html"
+    end
+
+    
   end
 
   
@@ -97,6 +117,8 @@ class BrewLogsController < ApplicationController
         @brew_log.recipe_other_ingredients << other_ingredient_record_dup
       end
     end
+
+
       #todo change the add to patch and change all references as well
     def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, index, ingredient )
       time, measurement, measurement_amount = make_or_find_time_measurement_measurement_amount_from_params(ingredient, index)
@@ -115,11 +137,11 @@ class BrewLogsController < ApplicationController
     end
 
     def update_existing_recipe_hop_records! 
-      @hops_count = @recipe.recipe_hops.count
+      @hops_count = @brew_log.recipe_hops.count
       index = 0
       while index < @hops_count
         hop = Hop.find_or_create_by(name: params[:hop][index][:name], form: params[:hop][index][:form], alpha_acid: params[:hop][index][:alpha_acid])
-        join_hop = @recipe.recipe_hops[index]
+        join_hop = @brew_log.recipe_hops[index]
         join_hop.hop = hop
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_hop, index, :hop)
         index += 1
@@ -130,19 +152,19 @@ class BrewLogsController < ApplicationController
       index = @hops_count
       while index < params[:hop].count
         hop = Hop.find_or_create_by(name: params[:hop][index][:name], form: params[:hop][index][:form], alpha_acid: params[:hop][index][:alpha_acid])
-        @recipe.hops << hop
-        join_hop = @recipe.recipe_hops.last
+        @brew_log.hops << hop
+        join_hop = @brew_log.recipe_hops.last
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_hop, index, :hop)
         index += 1
       end
     end
 
     def update_existing_recipe_fermentable_records! 
-      @fermentables_count = @recipe.recipe_fermentables.count
+      @fermentables_count = @brew_log.recipe_fermentables.count
       index = 0
       while index < @fermentables_count
         fermentable = Fermentable.find_or_create_by(name: params[:fermentable][index][:name])
-        join_fermentable = @recipe.recipe_fermentables[index]
+        join_fermentable = @brew_log.recipe_fermentables[index]
         join_fermentable.fermentable = fermentable
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_fermentable, index, :fermentable)
         index += 1
@@ -152,18 +174,18 @@ class BrewLogsController < ApplicationController
       index = @fermentables_count
       while index < params[:fermentable].count
         fermentable = Fermentable.find_or_create_by(name: params[:fermentable][index][:name])
-        @recipe.fermentables << fermentable
-        join_fermentable = @recipe.recipe_fermentables.last
+        @brew_log.fermentables << fermentable
+        join_fermentable = @brew_log.recipe_fermentables.last
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_fermentable, index, :fermentable)
         index += 1
       end
     end
     def update_existing_recipe_yeast_records! 
-      @yeasts_count = @recipe.recipe_yeasts.count
+      @yeasts_count = @brew_log.recipe_yeasts.count
       index = 0
       while index < @yeasts_count
         yeast = Yeast.find_or_create_by(name: params[:yeast][index][:name])
-        join_yeast = @recipe.recipe_yeasts[index]
+        join_yeast = @brew_log.recipe_yeasts[index]
         join_yeast.yeast = yeast
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_yeast, index, :yeast)
         index += 1
@@ -173,18 +195,18 @@ class BrewLogsController < ApplicationController
       index = @yeasts_count
       while index < params[:yeast].count
         yeast = Yeast.find_or_create_by(name: params[:yeast][index][:name])
-        @recipe.yeasts << yeast
-        join_yeast = @recipe.recipe_yeasts.last
+        @brew_log.yeasts << yeast
+        join_yeast = @brew_log.recipe_yeasts.last
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_yeast, index, :yeast)
         index += 1
       end
     end
     def update_existing_recipe_other_ingredient_records! 
-      @other_ingredients_count = @recipe.recipe_other_ingredients.count
+      @other_ingredients_count = @brew_log.recipe_other_ingredients.count
       index = 0
       while index < @other_ingredients_count
         other_ingredient = OtherIngredient.find_or_create_by(name: params[:other_ingredient][index][:name])
-        join_other_ingredient = @recipe.recipe_other_ingredients[index]
+        join_other_ingredient = @brew_log.recipe_other_ingredients[index]
         join_other_ingredient.other_ingredient = other_ingredient
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_other_ingredient, index, :other_ingredient)
         index += 1
@@ -194,8 +216,8 @@ class BrewLogsController < ApplicationController
       index = @other_ingredients_count
       while index < params[:other_ingredient].count
         other_ingredient = OtherIngredient.find_or_create_by(name: params[:other_ingredient][index][:name])
-        @recipe.other_ingredients << other_ingredient
-        join_other_ingredient = @recipe.recipe_other_ingredients.last
+        @brew_log.other_ingredients << other_ingredient
+        join_other_ingredient = @brew_log.recipe_other_ingredients.last
         add_time_measurement_and_measurement_quantity_to_join_table_record(join_other_ingredient, index, :other_ingredient)
         index += 1
       end

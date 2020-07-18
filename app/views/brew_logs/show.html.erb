@@ -15,11 +15,10 @@
 <%end%>
 <%# TODO fix associations when creating a brew_log from recipe %>
 <%@brew_log.recipe_hops.each do |hop|%>
-
-<%# Hop name:<%=hop.hop.name%> %>
-<%# Time added:<%=hop.time_added.time_added%> %>
-<%# Amount<%=hop.measurement_amount.measurement_amount %> %>
-<%# <%=hop.measurement.measurement%> %>
+Hop name:<%=hop.hop.name %>
+Time added:<%=hop.time_added.time_added %>
+Amount<%=hop.measurement_amount.measurement_amount %>
+<%=hop.measurement.measurement %>
 <%end%>
 
 <%# todo turn into button %>
@@ -27,5 +26,5 @@
 <a href="/brew_logs/<%= @brew_log.id %>/edit">Edit</a>
 <%end%>
 
-<%#Todo turn into button brewlog button  %>
-<a href="/brew_logs/new/<%=@brew_log.id%>">Start a Brewlog</a>
+<%#Todo create transfer of brew_log_record to recipe record%>
+<a href="/brew_logs/<%=@brew_log.id%>">Make into Base Recipe</a>
