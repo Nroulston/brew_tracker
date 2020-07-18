@@ -4,18 +4,23 @@ class RecipesController < ApplicationController
     erb :"/recipes/index.html"
   end
 
-  get "/recipes/new" do
-    erb :"/recipes/new.html"
+  get '/recipes/new' do
+    erb :'/recipes/new.html'
   end
 
-  post "/recipes" do
+  post '/recipes' do
   #create a new recipe
   @recipe = Recipe.new(params[:recipe])
-  @recipe.save
+  if @recipe.save
+    current_user.recipes << @recipe
+  else 
+    erb :'recipe/new.html'
+  end
+
   
   # Todo If you figure out jquery creation of form inputs then you need to change below to an each do block to create find or create each ingredient.
  
-  # Todo potentially use .send to make Hop.find_or_create_by dynamic for all ingredients def set_property(obj, prop_name, prop_value) obj.send("#{prop_name}=",prop_value) end potentially use hashes build out an attr accessor with hash of ingredients with classname, params accessors, join_tables, basically all things that might be variable per ingredient. This would allow you to make only one change to the ingredients hash to make changes to the entire process. 
+  # Todo potentially use .send to make Hop.find_or_create_by dynamic for all ingredients def set_property(obj, prop_name, prop_value) obj.send('#{prop_name}=',prop_value) end potentially use hashes build out an attr accessor with hash of ingredients with classname, params accessors, join_tables, basically all things that might be variable per ingredient. This would allow you to make only one change to the ingredients hash to make changes to the entire process. 
   
   
   params[:hop].each.with_index do |hop_details, index|
@@ -48,45 +53,58 @@ class RecipesController < ApplicationController
 
 
   
-  redirect "/recipes"
+  redirect '/recipes'
 end
 
-get "/recipes/:id" do
+get '/recipes/:id' do
   set_recipe
-
-  erb :"/recipes/show.html"
+  if @recipe
+  erb :'/recipes/show.html'
+  else
+    redirect '/recipes'
+  end
 end
 
-get "/recipes/:id/edit" do
+get '/recipes/:id/edit' do
   set_recipe
+  if current_user == @recipe.user
+    erb :'/recipes/edit.html'
+  else
+    redirect '/recipes'
+  end
   
-  erb :"/recipes/edit.html"
+  
 end
 
-patch "/recipes/:id" do
+patch '/recipes/:id' do
   #Todo look up how to not run the next lines of code of the form submitted has no changes from it's initial value, or how to not run it for items that had no changes. Example hops didn't change at all, but extra ingredients changed the time they were added. 
 
   #todo need to test if when editing a recipe with no hops that there is a recipe_hops join table that can be accessed before adding the new hop to the association.
   
-  set_recipe
-  @recipe.update(params[:recipe])
+
+  set_recipe 
+  if current_user && @recipe.update(params[:recipe]) 
+    update_existing_recipe_hop_records!
+    add_new_hops_and_establish_recipe_hop_record!
   
-  update_existing_recipe_hop_records!
-  add_new_hops_and_establish_recipe_hop_record!
-
-  update_existing_recipe_fermentable_records!
-  add_new_fermentable_and_establish_recipe_fermentable_record!
-
-  update_existing_recipe_yeast_records!
-  add_new_yeast_and_establish_recipe_yeast_record!
-
-  update_existing_recipe_other_ingredient_records!
-  add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
-  redirect "/recipes/#{@recipe.id}"
+    update_existing_recipe_fermentable_records!
+    add_new_fermentable_and_establish_recipe_fermentable_record!
+  
+    update_existing_recipe_yeast_records!
+    add_new_yeast_and_establish_recipe_yeast_record!
+  
+    update_existing_recipe_other_ingredient_records!
+    add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
+    redirect "/recipes/#{@recipe.id}"
+  else
+    erb :'/recipes/edit.html'
+  end
 end
 
-delete "/recipes/:id/delete" do
-  redirect "/recipes"
+delete '/recipes/:id/delete' do
+  set_recipe
+  @recipe.destroy
+  redirect '/recipes'
 end
 
   helpers do

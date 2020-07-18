@@ -21,5 +21,7 @@ Amount<%=hop.measurement_amount.measurement_amount %>
 <%end%>
 
 <%# todo turn into button %>
+<%if current_user == @recipe.user%>
 <a href="/recipes/<%= @recipe.id %>/edit">Edit</a>
+<%end%>
 <%#Todo Need to add create brewlog button  %>
