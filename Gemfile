@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
-gem 'activerecord', '5.2.3', :require => 'active_record'
+gem 'activerecord', :require => 'active_record'
 gem 'sinatra-activerecord', :require => 'sinatra/activerecord'
 
 gem 'rake'
@@ -16,6 +16,7 @@ gem 'tux'
 gem 'rails-erd', '~> 1.6' , group: :development
 gem 'dotenv'
 gem 'rack-flash3'
+gem "activesupport", ">= 5.2.4.3"
 
 group :test do
   gem 'rspec'

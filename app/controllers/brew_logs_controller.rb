@@ -1,128 +1,110 @@
-class BrewLogsController < ApplicationController
+# frozen_string_literal: true
 
+class BrewLogsController < ApplicationController
   # don't need an index of all brew logs yet
   # get "/brew_logs" do
   #   erb :"/brew_logs/index.html"
   # end
 
-  
-  get "/brew_logs/new/:id" do
+  get '/brew_logs/new/:id' do
     if logged_in?
-    set_recipe
-   
-    brew_log_creator
-    binding.pry
-    redirect "brew_logs/#{@brew_log.id}"
+      set_recipe
+      brew_log_creator
+      redirect "brew_logs/#{@brew_log.id}"
     else
       redirect '/login'
     end
   end
 
-  
-  post "/brew_logs" do
-    redirect "/brew_logs"
-  end
-
-  
-  get "/brew_logs/:id" do
-    set_brew_log 
-    
-    if current_user == @brew_log.user 
+  get '/brew_logs/:id' do
+    set_brew_log
+    if current_user == @brew_log.user
       erb :"/brew_logs/show.html"
     else
       redirect '/login'
     end
   end
 
-  
-  get "/brew_logs/:id/edit" do
+  get '/brew_logs/:id/edit' do
     set_brew_log
     if current_user == @brew_log.user
-     erb :"/brew_logs/edit.html"
+      erb :"/brew_logs/edit.html"
     else
       redirect '/login'
     end
   end
 
-  
-  patch "/brew_logs/:id" do
+  patch '/brew_logs/:id' do
     set_brew_log
-    if current_user && @brew_log.update(params[:brew_log]) 
-      
+    if current_user && @brew_log.update(params[:brew_log])
+
       update_existing_recipe_hop_records!
-    add_new_hops_and_establish_recipe_hop_record!
-  
-    update_existing_recipe_fermentable_records!
-    add_new_fermentable_and_establish_recipe_fermentable_record!
-  
-    update_existing_recipe_yeast_records!
-    add_new_yeast_and_establish_recipe_yeast_record!
-  
-    update_existing_recipe_other_ingredient_records!
-    add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
-     
-    redirect "/brew_logs/#{@brew_log.id}"
-      
+      add_new_hops_and_establish_recipe_hop_record!
+
+      update_existing_recipe_fermentable_records!
+      add_new_fermentable_and_establish_recipe_fermentable_record!
+
+      update_existing_recipe_yeast_records!
+      add_new_yeast_and_establish_recipe_yeast_record!
+
+      update_existing_recipe_other_ingredient_records!
+      add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
+
+      redirect "/brew_logs/#{@brew_log.id}"
+
     else
       erb :"/brew_logs/edit.html"
     end
-
-    
   end
 
-  
-  delete "/brew_logs/:id/delete" do
+  delete '/brew_logs/:id/delete' do
     set_brew_log
-    if current_user == @brew_log_user 
+    if current_user == @brew_log_user
       @brew_log.destroy
-      redirect "/brew_logs"
+      redirect '/brew_logs'
     else
       redirect '/login'
     end
   end
 
-
   helpers do
-    
     def brew_log_creator
       recipe_dup = @recipe.dup
       @brew_log = current_user.brew_logs.build(recipe_dup.attributes)
       @brew_log.save
       @recipe.brew_logs << @brew_log
-      
-      #todo  The below use of join tables will assign the join table directly, but that means that if you record is changed in the recipe that it will be changed for brew_log as well. Not bueno. You will have to revert to pushing the hop into the brew_log.hop array and then assigning all the values. Use the last join table record added and just assign the values manually
-      
-      
+
+      # TODO: The below use of join tables will assign the join table directly, but that means that if you record is changed in the recipe that it will be changed for brew_log as well. Not bueno. You will have to revert to pushing the hop into the brew_log.hop array and then assigning all the values. Use the last join table record added and just assign the values manually
+
       @recipe.recipe_hops.each do |hop_record|
-        hop_record_dup = hop_record.dup 
+        hop_record_dup = hop_record.dup
         hop_record_dup.recipe = nil
         @brew_log.recipe_hops << hop_record_dup
       end
 
       @recipe.recipe_fermentables.each do |fermentable_record|
-        fermentable_record_dup = fermentable_record.dup 
+        fermentable_record_dup = fermentable_record.dup
         fermentable_record_dup.recipe = nil
         @brew_log.recipe_fermentables << fermentable_record_dup
       end
 
       @recipe.recipe_yeasts.each do |yeast_record|
-        yeast_record_dup = yeast_record.dup 
+        yeast_record_dup = yeast_record.dup
         yeast_record_dup.recipe = nil
         @brew_log.recipe_yeasts << yeast_record_dup
       end
 
       @recipe.recipe_other_ingredients.each do |other_ingredient_record|
-        other_ingredient_record_dup = other_ingredient_record.dup 
+        other_ingredient_record_dup = other_ingredient_record.dup
         other_ingredient_record_dup.recipe = nil
         @brew_log.recipe_other_ingredients << other_ingredient_record_dup
       end
     end
 
-
-      #todo change the add to patch and change all references as well
-    def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, index, ingredient )
+    # TODO: change the add to patch and change all references as well
+    def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, index, ingredient)
       time, measurement, measurement_amount = make_or_find_time_measurement_measurement_amount_from_params(ingredient, index)
-      #todo change the below into a method and include it in this method
+      # TODO: change the below into a method and include it in this method
       join_table.time_added = time
       join_table.measurement = measurement
       join_table.measurement_amount = measurement_amount
@@ -133,10 +115,10 @@ class BrewLogsController < ApplicationController
       time = TimeAdded.find_or_create_by(time_added: params[ingredient][index][:time_added])
       measurement = Measurement.find_or_create_by(measurement: params[ingredient][index][:measurement])
       measurement_amount = MeasurementAmount.find_or_create_by(measurement_amount: params[ingredient][index][:measurement_amount])
-      return time,measurement,measurement_amount
+      [time, measurement, measurement_amount]
     end
 
-    def update_existing_recipe_hop_records! 
+    def update_existing_recipe_hop_records!
       @hops_count = @brew_log.recipe_hops.count
       index = 0
       while index < @hops_count
@@ -159,7 +141,7 @@ class BrewLogsController < ApplicationController
       end
     end
 
-    def update_existing_recipe_fermentable_records! 
+    def update_existing_recipe_fermentable_records!
       @fermentables_count = @brew_log.recipe_fermentables.count
       index = 0
       while index < @fermentables_count
@@ -170,6 +152,7 @@ class BrewLogsController < ApplicationController
         index += 1
       end
     end
+
     def add_new_fermentable_and_establish_recipe_fermentable_record!
       index = @fermentables_count
       while index < params[:fermentable].count
@@ -180,7 +163,8 @@ class BrewLogsController < ApplicationController
         index += 1
       end
     end
-    def update_existing_recipe_yeast_records! 
+
+    def update_existing_recipe_yeast_records!
       @yeasts_count = @brew_log.recipe_yeasts.count
       index = 0
       while index < @yeasts_count
@@ -191,6 +175,7 @@ class BrewLogsController < ApplicationController
         index += 1
       end
     end
+
     def add_new_yeast_and_establish_recipe_yeast_record!
       index = @yeasts_count
       while index < params[:yeast].count
@@ -201,7 +186,8 @@ class BrewLogsController < ApplicationController
         index += 1
       end
     end
-    def update_existing_recipe_other_ingredient_records! 
+
+    def update_existing_recipe_other_ingredient_records!
       @other_ingredients_count = @brew_log.recipe_other_ingredients.count
       index = 0
       while index < @other_ingredients_count
@@ -212,6 +198,7 @@ class BrewLogsController < ApplicationController
         index += 1
       end
     end
+
     def add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
       index = @other_ingredients_count
       while index < params[:other_ingredient].count
