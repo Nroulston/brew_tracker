@@ -22,5 +22,10 @@ class ApplicationController < Sinatra::Base
     def logged_in?
       !!current_user
     end
+
+    def set_recipe
+      @recipe = Recipe.find_by_id(params[:id])
+    end
+    
   end
 end

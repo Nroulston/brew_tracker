@@ -109,9 +109,7 @@ end
 
   helpers do
 
-    def set_recipe
-      @recipe = Recipe.find_by_id(params[:id])
-    end
+    
 
     def add_time_measurement_and_measurement_quantity_to_join_table_record(join_table, index, ingredient )
       time, measurement, measurement_amount = make_or_find_time_measurement_measurement_amount_from_params(ingredient, index)
