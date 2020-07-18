@@ -72,10 +72,8 @@ get '/recipes/:id/edit' do
   if current_user == @recipe.user
     erb :'/recipes/edit.html'
   else
-    redirect '/recipes'
+    redirect '/login'
   end
-  
-  
 end
 
 patch '/recipes/:id' do

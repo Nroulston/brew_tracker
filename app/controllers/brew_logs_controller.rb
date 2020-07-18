@@ -24,15 +24,23 @@ class BrewLogsController < ApplicationController
   
   get "/brew_logs/:id" do
     set_brew_log 
-    if current_user == @brew_log_user 
+    
+    if current_user == @brew_log.user 
       erb :"/brew_logs/show.html"
     else
       redirect '/login'
+    end
   end
 
   
   get "/brew_logs/:id/edit" do
-    erb :"/brew_logs/edit.html"
+    set_brew_log
+    
+    if current_user == @brew_log.user
+     erb :"/brew_logs/edit.html"
+    else
+      redirect '/login'
+    end
   end
 
   
@@ -43,8 +51,12 @@ class BrewLogsController < ApplicationController
   
   delete "/brew_logs/:id/delete" do
     set_brew_log
-    @brew_log.destroy
-    redirect "/brew_logs"
+    if current_user == @brew_log_user 
+      @brew_log.destroy
+      redirect "/brew_logs"
+    else
+      redirect '/login'
+    end
   end
 
 

@@ -1,1 +1,31 @@
-<h1>This is the show page for an individual instance of your model.</h1>
+<h1><%=@brew_log.name%></h1>
+<%=@brew_log.method%>
+<%=@brew_log.boil_time%>
+<%=@brew_log.pre_boil_size%>
+<%=@brew_log.pre_boil_gravity%>
+<%=@brew_log.target_og%>
+<%=@brew_log.target_fg%>
+<%=@brew_log.ibu%>
+<%=@brew_log.srm%>
+<%=@brew_log.mash_ph%>
+<%=@brew_log.mash_schedule%>
+
+<%@brew_log.fermentables.each do |fermentable|%>
+
+<%end%>
+<%# TODO fix associations when creating a brew_log from recipe %>
+<%@brew_log.recipe_hops.each do |hop|%>
+<%binding.pry%>
+<%# Hop name:<%=hop.hop.name%> %>
+<%# Time added:<%=hop.time_added.time_added%> %>
+<%# Amount<%=hop.measurement_amount.measurement_amount %> %>
+<%# <%=hop.measurement.measurement%> %>
+<%end%>
+
+<%# todo turn into button %>
+<%if current_user == @brew_log.user%>
+<a href="/brew_logs/<%= @brew_log.id %>/edit">Edit</a>
+<%end%>
+
+<%#Todo turn into button brewlog button  %>
+<a href="/brew_logs/new/<%=@brew_log.id%>">Start a Brewlog</a>
