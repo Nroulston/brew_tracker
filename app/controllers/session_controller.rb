@@ -1,4 +1,8 @@
 class SessionsController < ApplicationController
+  get '/index' do
+    erb :'sessions/index.html'
+  end
+  
   get '/login' do
     erb :'sessions/login.html'
   end
