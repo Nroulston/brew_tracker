@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_name(params[:user][:name])
     if @user && @user.authenticate(params[:user][:password])
       session[:user_id] = @user.id
-      redirect '/'
+      redirect '/recipes'
     else
       erb :'sessions/login.html'
     end

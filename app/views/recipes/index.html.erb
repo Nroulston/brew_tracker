@@ -1,8 +1,33 @@
-<h1>This is the Model's index page.</h1>
-<ol>
+
+<h1 class="header center orange-text">Recipes</h1>
+<div class="row center">
+        <a href="/recipes/new" id="newrecipe-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">create</i>New Recipe</a>
+        </div>
+<div class="row center">
 <%Recipe.all.each do |recipe|%>
-<li> <%=recipe.name%></li><br>
+    <div class="col s12 m6 l6">
+      <div class="card blue-grey  ">
+        <div class="card-content white-text">
+          <span class="card-title"><%=recipe.name%></span>
+          <p>Created By: <%=recipe.user.name%></p>
+          <ul>
+          <li> Size: <%=recipe.batch_size%> gallons </li>
+          <li> Original Gravity: <%=recipe.target_og%></li> 
+          <li> Final Gravity: <%=recipe.target_fg%></li> 
+          <li> IBU's: <%=recipe.ibu%></li> 
+          </ul>
+        </div>
+        <div class=" center card-action blue-grey lighten-1">
+          <button class="btn-small waves-effect waves-light orange" type="submit" name="action">More
+    <i class="material-icons right">more</i></button>
+          
+          
+          
+        </div>
+      </div>
+    </div>
 <%end%>
-</ol>
+  </div>
+
 
 
