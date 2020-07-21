@@ -1,4 +1,4 @@
-class CreateMeasurements < ActiveRecord::Migration[4.2]
+class CreateMeasurements < ActiveRecord::Migration
   def change
     create_table :measurements do |t|
       t.string :measurement

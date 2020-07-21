@@ -1,4 +1,4 @@
-class CreateMeasurementAmounts < ActiveRecord::Migration[4.2]
+class CreateMeasurementAmounts < ActiveRecord::Migration
   def change
     create_table :measurement_amounts do |t|
       t.integer :measurement_amount

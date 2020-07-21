@@ -1,4 +1,4 @@
-class CreateFermentables < ActiveRecord::Migration[4.2]
+class CreateFermentables < ActiveRecord::Migration
   def change
     create_table :fermentables do |t|
       t.string :name

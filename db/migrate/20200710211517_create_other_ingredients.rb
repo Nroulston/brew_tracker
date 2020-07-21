@@ -1,4 +1,4 @@
-class CreateOtherIngredients < ActiveRecord::Migration[4.2]
+class CreateOtherIngredients < ActiveRecord::Migration
   def change
     create_table :other_ingredients do |t|
       t.string :name

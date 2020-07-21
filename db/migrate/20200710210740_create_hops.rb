@@ -1,4 +1,4 @@
-class CreateHops < ActiveRecord::Migration[4.2]
+class CreateHops < ActiveRecord::Migration
   def change
     create_table :hops do |t|
       t.string :name

@@ -1,4 +1,4 @@
-class CreateRecipeHops < ActiveRecord::Migration[4.2]
+class CreateRecipeHops < ActiveRecord::Migration
   def change
     create_table :recipe_hops do |t|
       t.integer :hop_id

@@ -1,4 +1,4 @@
-class CreateRecipeFermentables < ActiveRecord::Migration[4.2]
+class CreateRecipeFermentables < ActiveRecord::Migration
   def change
     create_table :recipe_fermentables do |t|
       t.integer :fermentable_id

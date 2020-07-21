@@ -1,4 +1,4 @@
-class ChangeHopsTableColumnTypeToForm < ActiveRecord::Migration[5.2]
+class ChangeHopsTableColumnTypeToForm < ActiveRecord::Migration
   def change
     rename_column :hops, :type, :form
   end

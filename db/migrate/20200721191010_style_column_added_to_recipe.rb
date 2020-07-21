@@ -1,4 +1,4 @@
-class StyleColumnAddedToRecipe < ActiveRecord::Migration[6.0]
+class StyleColumnAddedToRecipe < ActiveRecord::Migration
   def change
     add_column :recipes, :style, :string
 
