@@ -4,7 +4,7 @@
         <a href="/recipes/new" id="newrecipe-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">create</i>New Recipe</a>
         </div>
 <div class="row center">
-<%Recipe.all.each do |recipe|%>
+  <%Recipe.all.each do |recipe|%>
     <div class="col s12 m6 l6">
       <div class="card blue-grey  ">
         <div class="card-content white-text">
@@ -18,16 +18,12 @@
           </ul>
         </div>
         <div class=" center card-action blue-grey lighten-1">
-          <button class="btn-small waves-effect waves-light orange" type="submit" name="action">More
-    <i class="material-icons right">more</i></button>
-          
-          
-          
+          <a href="/recipes/<%=recipe.id%>" id="show_recipe-button" class="btn-small waves-effect waves-light orange accent-2"> <i class="material-icons left">more</i>More</a>
         </div>
       </div>
     </div>
-<%end%>
-  </div>
+  <%end%>
+</div>
 
 
 

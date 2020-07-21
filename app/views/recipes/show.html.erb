@@ -1,30 +1,122 @@
-<h1><%=@recipe.name%></h1>
-<%=@recipe.method%>
-<%=@recipe.boil_time%>
-<%=@recipe.pre_boil_size%>
-<%=@recipe.pre_boil_gravity%>
-<%=@recipe.target_og%>
-<%=@recipe.target_fg%>
-<%=@recipe.ibu%>
-<%=@recipe.srm%>
-<%=@recipe.mash_ph%>
-<%=@recipe.mash_schedule%>
+<h1 class="header center orange-text"><%=@recipe.name%></h1>
+<h4 class="header center orange-text">By <%=@recipe.user.name%></h4>
 
-<%@recipe.fermentables.each do |fermentable|%>
+  <div class="row">
+    <div class="col s12 m6">
+      <ul class="collection with-header">
+        <li class="collection-header"><h4>Recipe Stats</h4></li>
+        <li class="collection-item">Method: <%=@recipe.method%> </li>
+        <li class="collection-item">Boil time: <%=@recipe.boil_time%></li>
+        <li class="collection-item">Pre-Boil volume: <%=@recipe.pre_boil_size%></li>
+        <li class="collection-item">Pre-Boil gravity<%=@recipe.pre_boil_gravity%></li>
+        <li class="collection-item">Target OG<%=@recipe.target_og%></li>
+        <li class="collection-item">Target FG<%=@recipe.target_fg%></li>
+        <li class="collection-item">IBU's<%=@recipe.ibu%></li>
+        <li class="collection-item">SRM:<%=@recipe.srm%></li>
+        <li class="collection-item">Mash PH<%=@recipe.mash_ph%></li>
+        <li class="collection-item">Mash Schedule<%=@recipe.mash_schedule%></li>
+      </ul>
+    </div>
+    <div class="col s12 m6">
+      <ul class="collection with-header">
+        <li class="collection-header"><h4>Grain</h4></li>
+        <li class="collection-item"><table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Amount</th>
+          </tr>
+        </thead>
+     
+        <tbody>
+          <%@recipe.recipe_fermentables.each do |fermentable|%>
+          <tr>
+            <td><%=fermentable.fermentable.name%></td>
+            <td><%=fermentable.measurement_amount.measurement_amount %> <%=fermentable.measurement.measurement%></td>
+          </tr>
+          <%end%>
+        </tbody>
+      </table></li>
+      </ul>
+    </div>
+    <div class="col s12 m6">
+      <ul class="collection with-header">
+        <li class="collection-header"><h4>Hops</h4></li>
+        <li class="collection-item"><table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Time Added</th>
+              <th>Amount</th>
+          </tr>
+        </thead>
+     
+        <tbody>
+          <%@recipe.recipe_hops.each do |hop|%>
+          <tr>
+            <td><%=hop.hop.name%></td>
+            <td><%=hop.time_added.time_added%></td>
+            <td><%=hop.measurement_amount.measurement_amount %> <%=hop.measurement.measurement%></td>
+          </tr>
+          <%end%>
+        </tbody>
+      </table></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 m6">
+      <ul class="collection with-header">
+        <li class="collection-header"><h4>Other Ingredients</h4></li>
+        <li class="collection-item"><table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Amount</th>
+          </tr>
+        </thead>
+     
+        <tbody>
+          <%@recipe.recipe_other_ingredients.each do |other_ingredient|%>
+          <tr>
+            <td><%=other_ingredient.other_ingredient.name%></td>
+            <td><%=other_ingredient.measurement_amount.measurement_amount %> <%=other_ingredient.measurement.measurement%></td>
+          </tr>
+          <%end%>
+        </tbody>
+      </table></li>
+      </ul>
+    </div>
+    <div class="col s12 m6">
+      <ul class="collection with-header">
+        <li class="collection-header"><h4>Yeast</h4></li>
+        <li class="collection-item"><table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Amount</th>
+          </tr>
+        </thead>
+     
+        <tbody>
+          <%@recipe.recipe_yeasts.each do |yeast|%>
+          <tr>
+            <td><%=yeast.yeast.name%></td>
+            <td><%=yeast.measurement_amount.measurement_amount %> <%=yeast.measurement.measurement%></td>
+          </tr>
+          <%end%>
+        </tbody>
+      </table></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row center">
+    <%if current_user == @recipe.user%>
+    <a href="/recipes/<%= @recipe.id %>/edit" id="edit-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">edit</i>Edit</a>
+    <%end%>
+    <a href="/login" id="login-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">note_add</i>Start a BrewLog</a>
+  </div>
 
-<%end%>
-<%@recipe.recipe_hops.each do |hop|%>
-Hop name:<%=hop.hop.name%>
-Time added:<%=hop.time_added.time_added%>
-Amount<%=hop.measurement_amount.measurement_amount %>
-<%=hop.measurement.measurement%>
-<%end%>
 
-<%# todo turn into button %>
-<%if current_user == @recipe.user%>
-<a href="/recipes/<%= @recipe.id %>/edit">Edit</a>
-<%end%>
 
-<%#Todo turn into button brewlog button  %>
-<a href="/brew_logs/new/<%=@recipe.id%>">Start a Brewlog</a>
-
+<
