@@ -1,6 +1,8 @@
 <h1 class="header center orange-text">BrewLogs</h1>
 <div class="row center">
-  <%Recipe.all.each do |recipe|%>
+              
+<%if !current_user.recipes.empty?%>              
+  <%current_user.recipes.each do |recipe|%>
     <%unless recipe.brew_logs.empty?%>
     <div class="col s12 m6 l6">
       <div class="card blue-grey  ">
@@ -26,6 +28,9 @@
     </div>
     <%end%>
   <%end%>
+<%else%>
+  <h5 class="header center orange-text">Brew some beer to have some logs!</h5>
+<%end%>
 </div>
 
 

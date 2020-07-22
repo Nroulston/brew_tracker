@@ -114,7 +114,7 @@
     <%if current_user == @recipe.user%>
     <a href="/recipes/<%= @recipe.id %>/edit" id="edit-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">edit</i>Edit</a>
     <%end%>
-    <a href='/brew_logs/new/<%=@recipe_id%>' id="login-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">note_add</i>Start a BrewLog</a>
+    <a href='/brew_logs/new/<%=@recipe.id%>' id="login-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">note_add</i>Start a BrewLog</a>
   </div>
  
   <%if logged_in?%>
