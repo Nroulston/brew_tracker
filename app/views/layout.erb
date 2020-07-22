@@ -19,25 +19,28 @@
   
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Brew Tracker</a>
-     <%# <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a> %>
+     <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
       <ul class="right hide-on-med-and-down">
         <% unless logged_in? %>
             <li><a href="/login">Login</a></li>
+            <li><a href="/recipes">Recipes</a></li>
           <% else %>
+            <li><a href="/recipes">Recipes</a></li>
+            <li><a href="/brew_logs">BrewLogs</a></li>
             <li><%= current_user.name %></li>
             <li><a href="/logout">Logout</a></li>
           <% end %>
       </ul>
 
-      <%# <ul id="nav-mobile" class="sidenav">
+      <ul id="nav-mobile" class="sidenav">
         <% unless logged_in? %>
-            <%# <li><a href="/login">Login</a></li>
+            <li><a href="/login">Login</a></li>
           <% else %>
-            <%# <li><%= current_user.name %></li>
-            <%# <li><a href="/logout">Logout</a></li> %>
-          <%# <% end %> 
-      <%# <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a> %> 
+            <li><%= current_user.name %></li>
+            <li><a href="/logout">Logout</a></li> 
+          <% end %> 
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a> 
     </div>
   </nav>
  
@@ -47,7 +50,9 @@
  
     </div>
 
-    <%# <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+     
+        
     <!--[if lt IE 7]>
       <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
       <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>

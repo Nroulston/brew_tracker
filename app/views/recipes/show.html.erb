@@ -114,16 +114,20 @@
     <%if current_user == @recipe.user%>
     <a href="/recipes/<%= @recipe.id %>/edit" id="edit-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">edit</i>Edit</a>
     <%end%>
-    <a href='/brew_logs/new/:id' id="login-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">note_add</i>Start a BrewLog</a>
+    <a href='/brew_logs/new/<%=@recipe_id%>' id="login-button" class="btn-large waves-effect waves-light orange"><i class="material-icons left">note_add</i>Start a BrewLog</a>
   </div>
-
-  <div class="row">
-    <div class="col s12 m6">
-      <ul class="collection with-header">
-        <li class="collection-header"><h4>BrewLogs</h4></li>
-        <%current_user.recipes.find_by_id(@recipe.id).brew_logs.each do |log|%>
-        <li class="collection-item"><div>Brewed on <%=log.created_at%><a href="/brew_logs/<%=log.id%>" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-        <%end%>
-      </ul>
+ 
+  <%if logged_in?%>
+    <%unless !current_user.brew_logs.find_by(recipe_id: @recipe.id)%>
+    <div class="row">
+      <div class="col s12 m6">
+        <ul class="collection with-header">
+          <li class="collection-header"><h4>BrewLogs</h4></li>
+          <%current_user.recipes.find_by_id(@recipe.id).brew_logs.each do |log|%>
+          <li class="collection-item"><div>Brewed on <%=log.created_at%><a href="/brew_logs/<%=log.id%>" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+          <%end%>
+        </ul>
+      </div>
     </div>
-  </div>
+    <%end%>
+  <%end%>

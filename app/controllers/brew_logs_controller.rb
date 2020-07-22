@@ -70,6 +70,7 @@ class BrewLogsController < ApplicationController
   helpers do
     def brew_log_creator
       recipe_dup = @recipe.dup
+      binding.pry
       @brew_log = current_user.brew_logs.build(recipe_dup.attributes)
       @brew_log.save
       @recipe.brew_logs << @brew_log
