@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200721191010) do
+ActiveRecord::Schema.define(version: 20200722000849) do
 
   create_table "brew_logs", force: :cascade do |t|
     t.integer  "user_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20200721191010) do
     t.string   "mash_schedule"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "style"
   end
 
   create_table "fermentables", force: :cascade do |t|

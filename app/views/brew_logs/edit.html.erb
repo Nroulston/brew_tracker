@@ -1,98 +1,230 @@
-<form action="/brew_logs/<%= @brew_log.id %>" method="POST">
-  <input id="hidden" type="hidden" name="_method" value="patch">
-    <div>
-    <%=@brew_log.recipe.name%>
-    <br>
-    Brew_log Date: <%= @brew_log.created_at%>
+<h1 class="header center orange-text">BrewLog Editor</h1>
+ <br>
+ <h5 class="header left orange-text">BrewLog Stats</h5>
+<div class="row">
+  <form class="col s12" action="/brew_logs/<%=@brew_log.id%>" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <div class="row">
+      <div class="input-field col s6">
+        <input type="text" name="" id="recipename" value="<%= @brew_log.recipe.name %>">
+        <label for="recipename">Name</label>
+      </div>
+    <div class="input-field col s6">
+          <input type="text" name="brew_log[style]" id="recipestyle"value='<%= @brew_log.style%>'>
+          <label for="recipestyle">Style</label>
     </div>
-    
-    <div>
-      Method: <input type="text" name="brew_log[method]" id="method"value="<%= @brew_log.method %>">
-      Boil time: <input type="text" name="brew_log[boil_time]" id=""value="<%= @brew_log.boil_time %>">
-      Batch size: <input type="text" name="brew_log[batch_size]" id="batch_size"value="<%= @brew_log.batch_size %>">
-      Pre-boil size: <input type="text" name="brew_log[pre_boil_size]" id="pre_boil"value="<%= @brew_log.pre_boil_size %>">
-      Pre-boil Gravity: <input type="text" name="brew_log[pre_boil_gravity]" id="pre_boil_gravity"value="<%= @brew_log.pre_boil_gravity %>">
-      Target Final Gravity: <input type="text" name="brew_log[target_fg]" id="target_fg"value="<%= @brew_log.target_fg %>">
-      Target Original Gravity <input type="text" name="brew_log[target_og]" id="target_og"value="<%= @brew_log.target_og %>">
-      Mash Ph: <input type="text" name="brew_log[mash_ph]" id="mash_ph"value="<%= @brew_log.mash_ph %>">
-      Mash schedule <input type="text" name="brew_log[mash_schedule]" id="mash_schedule"value="<%= @brew_log.mash_schedule %>">
-    </div>
-    <br>
-    <div>
-    <h3>Hops</h3>
-      <% @brew_log.recipe_hops.each do |hop|%>
-        Hop used: <input type="text" name="hop[][name]" id="hopname" value="<%= hop.hop.name%>">
-        Hop type: <input type="text" name="hop[][form]" id="hoptype" value="<%= hop.hop.form%>">
-        Alpha Acid: <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid" value="<%= hop.hop.alpha_acid%>">
-        Time added: <input type="text" name="hop[][time_added]" id="hop1_time_added" value="<%= hop.time_added.time_added%>">
-        Hop weight: <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity" value="<%= hop.measurement_amount.measurement_amount%>">
-        <%# Todo make this a drop down%> 
-        <input type="text" name="hop[][measurement]" id="hop1_measurement" value="<%= hop.measurement.measurement%>">
-      <%end%>
-      <h3>Add Hop</h3>
-        Hop used: <input type="text" name="hop[][name]" id="hopname">
-        Hop type: <input type="text" name="hop[][form]" id="hoptype">
-        Alpha Acid: <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid">
-        Time added: <input type="text" name="hop[][time_added]" id="hop1_time_added">
-        Hop weight: <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity">
-        <%# Todo make this a drop down%> 
-        <input type="text" name="hop[][measurement]" id="hop1_measurement">
-    </div>
-
-    <div>
-    <h3>Grain </h3>
-      <% @brew_log.recipe_fermentables.each do |grain|%>
-        Grain used: <input type="text" name="fermentable[][name]" id="fermentablename" value="<%= grain.fermentable.name%>"> 
-        Grain weight: <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity"value="<%= grain.measurement_amount.measurement_amount%>">
-        <%# Todo make this a drop down%value="<%= grain.time_added.time_added%>
-        <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement"value="<%= grain.measurement.measurement%>">
-      <%end%>
-      <br>
-      <h3>Add Grain</h3>
-        Grain used: <input type="text" name="fermentable[][name]" id="fermentablename">
-        <%# Time added: <input type="text" name="fermentable[][time_added]" id="fermentable1_time_added"> %>
-        Grain weight: <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity">
-        <%# Todo make this a drop down%> 
-        <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement">
-      <br>
-    </div>
-
-    <div>
-    <h3>Yeast</h3>
-      <% @brew_log.recipe_yeasts.each do |yeast|%>
+        <div class="input-field col s4">
+         <input type="text" name="brew_log[method]" id="method" value='<%= @brew_log.method %>'>
+          <label for="method"> Method</label>
         
-        Yeast used: <input type="text" name="yeast[][name]" id="yeast_name"value="<%= yeast.yeast.name%>">
-        Time added: <input type="text" name="yeast[][time_added]" id="yeast1_time_added"value="<%= yeast.time_added.time_added%>">
-        Yeast measurement: <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity"value="<%= yeast.measurement_amount.measurement_amount%>">
-        <%# Todo make this a drop down%value="<%= yeast.measurement.measurement%>"> 
-        <input type="text" name="yeast[][measurement]" id="yeast1_measurement"value="<%= yeast.measurement.measurement%>">
-      <%end%>
-      <br>
-      <h3>Add Yeast</h3>
-        Yeast used: <input type="text" name="yeast[][name]" id="yeast_name">
-        Time added: <input type="text" name="yeast[][time_added]" id="yeast1_time_added">
-        Yeast measurement: <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity">
-        <%# Todo make this a drop down%> 
-        <input type="text" name="yeast[][measurement]" id="yeast1_measurement">
-    </div>
-    <br>
-    <div>
-    <h3>Other Ingredients</h3>
-      <% @brew_log.recipe_other_ingredients.each do |ingredient|%>
-        Other Ingredient used: <input type="text" name="other_ingredient[][name]" id="other_ingredient_name"value="<%= ingredient.other_ingredient.name%>">
-        Time added: <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added"value="<%= ingredient.time_added.time_added%>">
-        Measurement: <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity"value="<%= ingredient.measurement_amount.measurement_amount%>">
-        <%# Todo make this a drop down%value="<%= ingredient.measurement.measurement%> 
-        <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement"value="<%= ingredient.measurement.measurement%>">
-      <%end%>
-      <br>
-      <h3>Add Ingredient</h3>
-        Other Ingredient used: <input type="text" name="other_ingredient[][name]" id="other_ingredient_name">
-        Time added: <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added">
-        Measurement: <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity">
-        <%# Todo make this a drop down%> 
-        <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement">
-    </div>
+        </div>
+        <div class="input-field col s4">
+          <input type="text" name="brew_log[boil_time]" id="boil_time" value='<%= @brew_log.boil_time %>'>
+          <label for="boil_time">Boil time</label>
+        </div>
 
-  <input type="submit" value="Update Recipe">
-</form>
+        <div class="input-field col s4">
+         <input type="text" name="brew_log[batch_size]" id="batch_size" value="<%= @brew_log.batch_size %>">
+          <label for="batch_size"> Batch Volume: </label>
+        </div>
+
+        <div class="input-field col s4">
+         <input type="text" name="brew_log[pre_boil_size]" id="pre_boil" value="<%= @brew_log.pre_boil_size %>">
+          <label for="pre_boil"> Pre-boil Volume: </label>
+        </div>
+      
+        <div class="input-field col s4">
+         <input type="text" name="brew_log[pre_boil_gravity]" id="pre_boil_gravity" value="<%= @brew_log.pre_boil_gravity %>">
+          <label for="pre_boil_gravity">Pre-boil Gravity: </label>
+        </div>
+
+        <div class="input-field col s4">
+          <input type="text" name="brew_log[target_og]" id="target_og" value="<%= @brew_log.target_og %>">
+          <label for="target_og">Target Original Gravity: </label>
+        </div>
+
+        <div class="input-field col s4">
+          <input type="text" name="brew_log[target_fg]" id="target_fg" value="<%= @brew_log.target_fg %>">
+          <label for="target_fg">Target Final Gravity: </label>
+        </div>
+        <div class="input-field col s4">
+          <input type="text" name="brew_log[mash_ph]" id="mash_ph" value="<%= @brew_log.mash_ph %>">
+          <label for="mash_ph">Mash Ph: </label>
+        </div>
+        <div class="input-field col s4">
+          <input type="text" name="brew_log[mash_schedule]" id="mash_schedule" value="<%= @brew_log.mash_schedule %>">
+          <label for="mash_schedule">Mash schedule: </label>
+        </div>
+      </div>
+      <h5 class="header orange-text col s12">Hops</h5>
+      <br>
+      <% @brew_log.recipe_hops.each do |hop|%>
+        <div class="row">
+          <div class="input-field col s4">
+            <input type="text" name="hop[][name]" id="hopname" value="<%= hop.hop.name%>">
+            <label for="hopname">Hop used: </label>
+          </div>
+          <div class="input-field col s4">
+            <input type="text" name="hop[][form]" id="hoptype" value="<%= hop.hop.form%>">
+            <label for="hoptype">Hop type: </label>
+          </div>
+          <div class="input-field col s4">
+            <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid" value="<%= hop.hop.alpha_acid%>">
+            <label for="hop_alpha_acid">Alpha Acid: </label>
+          </div>
+          <div class="input-field col s4">
+            <label for="hop1_time_added">Time added: </label>
+            <input type="text" name="hop[][time_added]" id="hop1_time_added" value="<%= hop.time_added.time_added%>">
+          </div>
+          <div class="input-field col s2">
+            <label for="hop1_measurement_quantity">Hop weight: </label>
+              <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity" value="<%= hop.measurement_amount.measurement_amount%>">
+          </div>
+          <div class="input-field col s2">
+            <label for="hop1_measurement">lbs, oz, kg, g </label>
+            <input type="text" name="hop[][measurement]" id="hop1_measurement" value="<%= hop.measurement.measurement%>">
+          </div>
+        </div>
+      <%end%>
+      <h5 class="header orange-text col s12">Add Hop</h5>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+          <input type="text" name="hop[][name]" id="hopname">
+          <label for="hopname">Hop used: </label>
+        </div>
+        <div class="input-field col s4">
+          <input type="text" name="hop[][form]" id="hoptype">
+          <label for="hoptype">Hop type: </label>
+        </div>
+        <div class="input-field col s4">
+          <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid">
+          <label for="hop_alpha_acid">Alpha Acid: </label>
+        </div>
+        <div class="input-field col s4">
+          <label for="hop1_time_added">Time added: </label>
+          <input type="text" name="hop[][time_added]" id="hop1_time_added">
+        </div>
+        <div class="input-field col s2">
+          <label for="hop1_measurement_quantity">Hop weight: </label>
+            <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity">
+        </div>
+        <div class="input-field col s2">
+          <label for="hop1_measurement">lbs, oz, kg, g </label>
+          <input type="text" name="hop[][measurement]" id="hop1_measurement">
+        </div>
+      </div>
+
+      <h5 class="header orange-text col s12">Grain</h5>
+      <% @brew_log.recipe_fermentables.each do |grain|%>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+          <input type="text" name="fermentable[][name]" id="fermentablename" value="<%= grain.fermentable.name%>">
+          <label for="fermentablename">Grain used: </label>
+        </div>
+        <div class="input-field col s2">
+          <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity" value="<%= grain.measurement_amount.measurement_amount%>">
+          <label for="fermentable1_measurement_quantity">Grain weight: </label>
+        </div>
+        <div class="input-field col s2">
+           <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement"value="<%= grain.measurement.measurement%>">
+          <label for="hop_alpha_acid">lbs, oz, kg, g </label>
+        </div>
+        <%end%>
+        <h5 class="header orange-text col s12">Add Grain</h5>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+          <input type="text" name="fermentable[][name]" id="fermentablename">
+          <label for="fermentablename">Grain used: </label>
+        </div>
+        <div class="input-field col s2">  
+          <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity">
+          <label for="fermentable1_measurement_quantity">Grain weight: </label>
+        </div>
+        <div class="input-field col s2">
+           <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement">
+          <label for="hop_alpha_acid">lbs, oz, kg, g </label>
+        </div>
+
+      </div><h5 class="header orange-text col s12">Yeast</h5>
+        <% @brew_log.recipe_yeasts.each do |yeast|%>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+          <input type="text" name="yeast[][name]" id="yeast_name" value="<%= yeast.yeast.name%>">
+          <label for="yeast_name">Yeast used: </label>
+        </div>
+        <div class="input-field col s2">
+          <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity" value="<%= yeast.measurement_amount.measurement_amount%>">
+          <label for="yeast1_measurement_quantity">Yeast amount: </label>
+        </div>
+        <div class="input-field col s2">
+           <input type="text" name="yeast[][measurement]" id="yeast1_measurement" value="<%= yeast.measurement.measurement%>">
+          <label for="yeast1_measurement">lbs, oz, kg, g </label>
+        </div>
+      </div>
+      <%end%>
+      </div><h5 class="header orange-text col s12">Add Yeast</h5>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+          <input type="text" name="yeast[][name]" id="yeast_name">
+          <label for="yeast_name">Yeast used: </label>
+        </div>
+        <div class="input-field col s2">
+          <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity">
+          <label for="yeast1_measurement_quantity">Yeast amount: </label>
+        </div>
+        <div class="input-field col s2">
+           <input type="text" name="yeast[][measurement]" id="yeast1_measurement">
+          <label for="yeast1_measurement">lbs, oz, kg, g </label>
+        </div>
+      </div>
+
+      <h5 class="header orange-text col s12">Other Ingredients</h5>
+      <% @brew_log.recipe_other_ingredients.each do |ingredient|%>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+           <input type="text" name="other_ingredient[][name]" id="other_ingredient_name" value="<%= ingredient.other_ingredient.name%>">
+          <label for="other_ingredient_name">Other Ingredient used: </label>
+        </div>
+        <div class="input-field col s2">
+          <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added" value="<%= ingredient.time_added.time_added%>">
+          <label for="other_ingredient1_time_added">Time added: </label>
+        </div>
+        <div class="input-field col s2">
+             <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity" value="<%= ingredient.measurement_amount.measurement_amount%>">
+          <label for="other_ingredient1_measurement_quantity">amount</label>
+        </div>
+        <div class="input-field col s2">
+           <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement" value="<%= ingredient.measurement.measurement%>">
+          <label for="other_ingredient1_measurement">lbs, oz, kg, g </label>
+        </div>
+      <%end%>
+      </div>
+      <h5 class="header orange-text col s12">Other Ingredients</h5>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+           <input type="text" name="other_ingredient[][name]" id="other_ingredient_name">
+          <label for="other_ingredient_name">Other Ingredient used: </label>
+        </div>
+        <div class="input-field col s2">
+          <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added">
+          <label for="other_ingredient1_time_added">Time added: </label>
+        </div>
+        <div class="input-field col s2">
+             <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity">
+          <label for="other_ingredient1_measurement_quantity">amount</label>
+        </div>
+        <div class="input-field col s2">
+           <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement">
+          <label for="other_ingredient1_measurement">lbs, oz, kg, g </label>
+        </div>
+      </div>
+  <button class="btn-large waves-effect waves-light orange" type="submit" name="action">Submit<i class="material-icons right">send</i></button>
+  </form>
+</div>

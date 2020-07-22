@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class BrewLogsController < ApplicationController
-  # don't need an index of all brew logs yet
-  # get "/brew_logs" do
-  #   erb :"/brew_logs/index.html"
-  # end
+  
+  get "/brew_logs" do
+    erb :"/brew_logs/index.html"
+  end
 
   get '/brew_logs/new/:id' do
     if logged_in?
