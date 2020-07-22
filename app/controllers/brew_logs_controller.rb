@@ -76,7 +76,6 @@ class BrewLogsController < ApplicationController
       @brew_log.save
       @recipe.brew_logs << @brew_log
 
-      # TODO: The below use of join tables will assign the join table directly, but that means that if you record is changed in the recipe that it will be changed for brew_log as well. Not bueno. You will have to revert to pushing the hop into the brew_log.hop array and then assigning all the values. Use the last join table record added and just assign the values manually
 
       @recipe.recipe_hops.each do |hop_record|
         hop_record_dup = hop_record.dup

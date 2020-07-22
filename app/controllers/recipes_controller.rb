@@ -3,8 +3,14 @@ class RecipesController < ApplicationController
   get "/recipes" do
     erb :"/recipes/index.html"
   end
-
+  
   get '/recipes/new' do
+    @recipe = Recipe.new
+    @hop = Hop.new
+    @fermentable = Fermentable.new
+    @yeast = Yeast.new
+    @other_ingredient = OtherIngredient.new
+
     if logged_in?
       erb :'/recipes/new.html'
     else
@@ -13,18 +19,10 @@ class RecipesController < ApplicationController
   end
 
   post '/recipes' do
-  
   @recipe = Recipe.new(params[:recipe])
   if @recipe.save
     current_user.recipes << @recipe
-  else 
-    erb :'recipe/new.html'
-  end
-
-  
-  # Todo potentially use .send to make Hop.find_or_create_by dynamic for all ingredients def set_property(obj, prop_name, prop_value) obj.send('#{prop_name}=',prop_value) end potentially use hashes build out an attr accessor with hash of ingredients with classname, params accessors, join_tables, basically all things that might be variable per ingredient. This would allow you to make only one change to the ingredients hash to make changes to the entire process. 
-  
-  
+    # Todo potentially use .send to make Hop.find_or_create_by dynamic for all ingredients def set_property(obj, prop_name, prop_value) obj.send('#{prop_name}=',prop_value) end potentially use hashes build out an attr accessor with hash of ingredients with classname, params accessors, join_tables, basically all things that might be variable per ingredient. This would allow you to make only one change to the ingredients hash to make changes to the entire process. 
   params[:hop].each.with_index do |hop_details, index|
     hop_instance = Hop.find_or_create_by(name: hop_details[:name], form: hop_details[:form], alpha_acid: hop_details[:alpha_acid])
     @recipe.hops << hop_instance 
@@ -53,10 +51,18 @@ class RecipesController < ApplicationController
     add_time_measurement_and_measurement_quantity_to_join_table_record(join_other_ingredient, index,:other_ingredient)
   end
 
+  redirect '/recipes'
+else 
+  @hop = params[:hop][0]
+  @fermentable = params[:fermentable][0]
+  @yeast = params[:yeast][0]
+  @other_ingredient = params[:other_ingredient][0]
+  erb :'recipes/new.html'
+end
+end
 
   
-  redirect '/recipes'
-end
+  
 
 get '/recipes/:id' do
   set_recipe

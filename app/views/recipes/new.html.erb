@@ -1,58 +1,69 @@
  <h1 class="header center orange-text">Recipe Creator</h1>
  <br>
- <h5 class="header left orange-text">Recipe Stats</h5>
+ <h5 class="header left orange-text">Recipe Stats</h5><br><br>
+ <% if @recipe.errors.any? %>
+  <div class ="row col s12">
+    <ul class="collection">
+    <% @recipe.errors.full_messages.each do |msg| %>
+    <li class="collection-item"><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 
 <div class="row">
   <form class="col s12" action="/recipes" method="post">
       <div class="row">
+        
         <div class="input-field col s6">
-          <input type="text" name="recipe[name]" id="recipename">
+          <input type="text" name="recipe[name]" id="recipename" value="<%= @recipe.name %>">
           <label for="recipename">Name</label>
-        </div>
+        
+      </div>
         <div class="input-field col s6">
-          <input type="text" name="recipe[style]" id="recipestyle">
+          <input type="text" name="recipe[style]" id="recipestyle" value='<%= @recipe.style%>'>
           <label for="recipestyle">Style</label>
         </div>
         <div class="input-field col s4">
-         <input type="text" name="recipe[method]" id="method">
+         <input type="text" name="recipe[method]" id="method" value='<%= @recipe.method %>'>
           <label for="method"> Method</label>
         
         </div>
         <div class="input-field col s4">
-          <input type="text" name="recipe[boil_time]" id="boil_time">
+          <input type="text" name="recipe[boil_time]" id="boil_time" value='<%= @recipe.boil_time %>'>
           <label for="boil_time">Boil time</label>
         </div>
 
         <div class="input-field col s4">
-         <input type="text" name="recipe[batch_size]" id="batch_size">
+         <input type="text" name="recipe[batch_size]" id="batch_size" value="<%= @recipe.batch_size %>">
           <label for="batch_size"> Batch Volume: </label>
         </div>
 
         <div class="input-field col s4">
-         <input type="text" name="recipe[pre_boil_size]" id="pre_boil">
+         <input type="text" name="recipe[pre_boil_size]" id="pre_boil"  value="<%= @recipe.pre_boil_size %>">
           <label for="pre_boil"> Pre-boil Volume: </label>
         </div>
       
         <div class="input-field col s4">
-         <input type="text" name="recipe[pre_boil_gravity]" id="pre_boil_gravity">
+         <input type="text" name="recipe[pre_boil_gravity]" id="pre_boil_gravity" value="<%= @recipe.pre_boil_gravity %>">
           <label for="pre_boil_gravity">Pre-boil Gravity: </label>
         </div>
 
         <div class="input-field col s4">
-          <input type="text" name="recipe[target_og]" id="target_og">
+          <input type="text" name="recipe[target_og]" id="target_og" value="<%= @recipe.target_og %>">
           <label for="target_og">Target Original Gravity: </label>
         </div>
 
         <div class="input-field col s4">
-          <input type="text" name="recipe[target_fg]" id="target_fg">
+          <input type="text" name="recipe[target_fg]" id="target_fg" value="<%= @recipe.target_fg %>">
           <label for="target_fg">Target Final Gravity: </label>
         </div>
         <div class="input-field col s4">
-          <input type="text" name="recipe[mash_ph]" id="mash_ph">
+          <input type="text" name="recipe[mash_ph]" id="mash_ph" value="<%= @recipe.mash_ph %>">
           <label for="mash_ph">Mash Ph: </label>
         </div>
         <div class="input-field col s4">
-          <input type="text" name="recipe[mash_schedule]" id="mash_schedule">
+          <input type="text" name="recipe[mash_schedule]" id="mash_schedule" >
           <label for="mash_schedule">Mash schedule: </label>
         </div>
       </div>
@@ -60,58 +71,58 @@
       <br>
       <div class="row">
         <div class="input-field col s4">
-          <input type="text" name="hop[][name]" id="hopname">
+          <input type="text" name="hop[][name]" id="hopname"  value="<%= @hop[:name]%>"> 
           <label for="hopname">Hop used: </label>
         </div>
         <div class="input-field col s4">
-          <input type="text" name="hop[][form]" id="hoptype">
+          <input type="text" name="hop[][form]" id="hoptype" value="<%= @hop[:form]%>">
           <label for="hoptype">Hop type: </label>
         </div>
         <div class="input-field col s4">
-          <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid">
+          <input type="text" name="hop[][alpha_acid]" id="hop_alpha_acid" value="<%= @hop[:alpha_acid]%>">
           <label for="hop_alpha_acid">Alpha Acid: </label>
         </div>
         <div class="input-field col s4">
           <label for="hop1_time_added">Time added: </label>
-          <input type="text" name="hop[][time_added]" id="hop1_time_added">
+          <input type="text" name="hop[][time_added]" id="hop1_time_added"value="<%= @hop[:time_added]%>">
         </div>
         <div class="input-field col s2">
           <label for="hop1_measurement_quantity">Hop weight: </label>
-            <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity">
+            <input type="text" name="hop[][measurement_amount]" id="hop1_measurement_quantity" value="<%= @hop[:measurement_amount]%>">
         </div>
         <div class="input-field col s2">
           <label for="hop1_measurement">lbs, oz, kg, g </label>
-          <input type="text" name="hop[][measurement]" id="hop1_measurement">
+          <input type="text" name="hop[][measurement]" id="hop1_measurement" value="<%= @hop[:measurement]%>">
         </div>
       </div>
       <h5 class="header orange-text col s12">Grain</h5>
       <br>
       <div class="row">
         <div class="input-field col s4">
-          <input type="text" name="fermentable[][name]" id="fermentablename">
+          <input type="text" name="fermentable[][name]" id="fermentablename" value="<%= @fermentable[:name]%>">
           <label for="fermentablename">Grain used: </label>
         </div>
         <div class="input-field col s2">
-          <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity">
+          <input type="text" name="fermentable[][measurement_amount]" id="fermentable1_measurement_quantity" value="<%= @fermentable[:measurement_amount]%>">
           <label for="fermentable1_measurement_quantity">Grain weight: </label>
         </div>
         <div class="input-field col s2">
-           <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement">
+           <input type="text" name="fermentable[][measurement]" id="fermentable1_measurement" value="<%= @fermentable[:measurement]%>">
           <label for="hop_alpha_acid">lbs, oz, kg, g </label>
         </div>
       </div><h5 class="header orange-text col s12">Yeast</h5>
       <br>
       <div class="row">
         <div class="input-field col s4">
-          <input type="text" name="yeast[][name]" id="yeast_name">
+          <input type="text" name="yeast[][name]" id="yeast_name" value="<%= @yeast[:name]%>">
           <label for="yeast_name">Yeast used: </label>
         </div>
         <div class="input-field col s2">
-          <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity">
+          <input type="text" name="yeast[][measurement_amount]" id="yeast1_measurement_quantity" value="<%= @yeast[:measurement_amount]%>">
           <label for="yeast1_measurement_quantity">Yeast amount: </label>
         </div>
         <div class="input-field col s2">
-           <input type="text" name="yeast[][measurement]" id="yeast1_measurement">
+           <input type="text" name="yeast[][measurement]" id="yeast1_measurement" value="<%= @yeast[:measurement]%>">
           <label for="yeast1_measurement">lbs, oz, kg, g </label>
         </div>
       </div>
@@ -119,19 +130,20 @@
       <br>
       <div class="row">
         <div class="input-field col s4">
-           <input type="text" name="other_ingredient[][name]" id="other_ingredient_name">
+           <input type="text" name="other_ingredient[][name]" id="other_ingredient_name" value="<%= @other_ingredient[:name]%>"> 
           <label for="other_ingredient_name">Other Ingredient used: </label>
         </div>
         <div class="input-field col s2">
-          <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added">
+          <input type="text" name="other_ingredient[][time_added]" id="other_ingredient1_time_added" value="<%= @other_ingredient[:time_added]%>">
           <label for="other_ingredient1_time_added">Time added: </label>
         </div>
         <div class="input-field col s2">
-             <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity">
+             <input type="text" name="other_ingredient[][measurement_amount]" id="other_ingredient1_measurement_quantity" value="<%= @other_ingredient[:measurement_amount]%>">
           <label for="other_ingredient1_measurement_quantity">amount</label>
         </div>
         <div class="input-field col s2">
-           <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement">
+           <input type="text" name="other_ingredient[][measurement]" id="other_ingredient1_measurement" value="<%= @other_ingredient[:measurement
+           ]%>">
           <label for="other_ingredient1_measurement">lbs, oz, kg, g </label>
         </div>
       </div>
