@@ -123,7 +123,7 @@
       <div class="col s12 m6">
         <ul class="collection with-header">
           <li class="collection-header"><h4>BrewLogs</h4></li>
-          <%current_user.recipes.find_by_id(@recipe.id).brew_logs.each do |log|%>
+          <%current_user.brew_logs.where(recipe_id: @recipe.id).find_each do |log|%>
           <li class="collection-item"><div>Brewed on <%=log.created_at%><a href="/brew_logs/<%=log.id%>" class="secondary-content"><i class="material-icons">send</i></a></div></li>
           <%end%>
         </ul>

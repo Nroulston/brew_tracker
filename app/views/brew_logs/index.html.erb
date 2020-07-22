@@ -1,35 +1,32 @@
 <h1 class="header center orange-text">BrewLogs</h1>
 <div class="row center">
-              
-<%if !current_user.recipes.empty?%>              
-  <%current_user.recipes.each do |recipe|%>
-    <%unless recipe.brew_logs.empty?%>
-    <div class="col s12 m6 l6">
-      <div class="card blue-grey  ">
-        <div class="card-content white-text">
-          <span class="card-title">Recipe Name: <%=recipe.name%></span>
-          <p>Created By: <%=recipe.user.name%></p><br>
-          <span class="card-title">Your Logs:</span>
-
-          <div class="row">
-            <%# <div class="col s12 m6"> %>
+            
+<%unless current_user.brew_logs.empty?%>
+  <%current_user.brew_logs.select(:recipe_id).distinct.each do |log|%>
+      <div class="col s12 m6 l6">
+        <div class="card blue-grey  ">
+          <div class="card-content white-text">
+            <span class="card-title">Recipe Name: <%=log.recipe.name%></span>
+            <p>Created By: <%=log.recipe.user.name%></p><br>
+            <span class="card-title">Your Logs:</span>
+            <div class="row">
               <ul class="collection">
-                <%current_user.recipes.find_by_id(recipe.id).brew_logs.each do |log|%>
+                <%current_user.brew_logs.where(recipe_id: log.recipe.id).each do |log|%>
                 <li class="collection-item black-text"><div>Brewed on <%=log.created_at%><a href="/brew_logs/<%=log.id%>" class="secondary-content"><i class="material-icons">send</i></a></div></li>
                 <%end%>
               </ul>
-            <%# </div> %>
+              
+            </div>
+          </div>
+          <div class=" center card-action blue-grey lighten-1">
+            <a href="/recipes/<%=log.recipe.id%>" id="show_recipe-button" class="btn-small waves-effect waves-light orange accent-2"> <i class="material-icons left">more</i>More Recipe Info</a>
           </div>
         </div>
-        <div class=" center card-action blue-grey lighten-1">
-          <a href="/recipes/<%=recipe.id%>" id="show_recipe-button" class="btn-small waves-effect waves-light orange accent-2"> <i class="material-icons left">more</i>More Recipe Info</a>
-        </div>
       </div>
-    </div>
-    <%end%>
-  <%end%>
+      <%end%>
+  
 <%else%>
-  <h5 class="header center orange-text">Brew some beer to have some logs!</h5>
+  <h5 class="header center orange-text">Brew some beer to have some!</h5>
 <%end%>
 </div>
 
