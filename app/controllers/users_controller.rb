@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
-
+  use Rack::Flash
  
   get "/users/signup" do
+    @user = User.new
     erb :"/users/new.html"
   end
 
@@ -11,6 +12,7 @@ class UsersController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       #Todo create profile and ability to edit. Possibly use a seperate controller and views.
+      
       redirect '/recipes'
     else
       erb :'users/new.html'

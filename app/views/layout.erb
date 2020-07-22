@@ -43,7 +43,20 @@
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a> 
     </div>
   </nav>
- 
+ <% if flash[:error] %>
+            <div>
+            <ul class="collection">
+              <li class="collection-item"><%= flash[:error]%></li>
+            </ul>
+            </div>
+    <% end %>
+    <% if flash[:notice] %>
+        <div>
+            <ul class="collection">
+              <li class="collection-item"><%= flash[:notice]%></li>
+            </ul>
+            </div>
+    <% end %>
     <div class="container">
          
         <%= yield %>

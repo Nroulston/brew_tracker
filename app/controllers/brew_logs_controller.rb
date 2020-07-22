@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BrewLogsController < ApplicationController
-  
+  use Rack::Flash
   get "/brew_logs" do
 
     erb :"/brew_logs/index.html"
@@ -12,8 +12,10 @@ class BrewLogsController < ApplicationController
     if logged_in?
       set_recipe
       brew_log_creator
+      flash[:notice] = "BrewLog Created"
       redirect "brew_logs/#{@brew_log.id}"
     else
+      flash[:error] = 'You must be logged in to start a BrewLog'
       redirect '/login'
     end
   end
@@ -23,6 +25,7 @@ class BrewLogsController < ApplicationController
     if current_user == @brew_log.user
       erb :"/brew_logs/show.html"
     else
+      flash[:error] = "You don't have access to that Brew Log. Sign in to your account to see it."
       redirect '/login'
     end
   end
@@ -32,6 +35,7 @@ class BrewLogsController < ApplicationController
     if current_user == @brew_log.user
       erb :"/brew_logs/edit.html"
     else
+      flash[:error] = "You don't have access to that Brew Log. Sign in to your account to see it."
       redirect '/login'
     end
   end
@@ -51,20 +55,23 @@ class BrewLogsController < ApplicationController
 
       update_existing_recipe_other_ingredient_records!
       add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
-
+      flash[:notice] = "Brew Log updated successfully "
       redirect "/brew_logs/#{@brew_log.id}"
 
     else
+      flash[:error] = "You don't have access to that Brew Log. Sign in to your account to see it."
       erb :"/brew_logs/edit.html"
     end
   end
 
   delete '/brew_logs/:id/delete' do
     set_brew_log
-    if current_user == @brew_log_user
+    if current_user == @brew_log.user
       @brew_log.destroy
+      flash[:notice] = "Brew Log deleted successfully "
       redirect '/brew_logs'
     else
+      flash[:error] = "You don't have access to that Brew Log. Sign in to your account to see it."
       redirect '/login'
     end
   end

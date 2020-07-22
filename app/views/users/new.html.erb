@@ -1,7 +1,17 @@
+<% if @user.errors.any? %>
+  <div class ="row col s12">
+    <ul class="collection">
+    <% @user.errors.full_messages.each do |msg| %>
+    <li class="collection-item"><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+ <h1 class="header center orange-text">Signup</h1>
 <form action="/users" method="post">
 <label for="username">Username:</label>
 <input type="text" name="user[name]" id="username">
 <label for="password">Password:</label>
 <input type="password" name="user[password]" id="password">
-<input type="submit" value="Sign Up">
+<button class="btn-large waves-effect waves-light orange" type="submit" name="action">Submit<i class="material-icons right">send</i></button>
 </form>

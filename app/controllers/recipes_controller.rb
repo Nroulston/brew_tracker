@@ -1,6 +1,7 @@
 class RecipesController < ApplicationController
-
+  use Rack::Flash
   get "/recipes" do
+    binding.pry
     erb :"/recipes/index.html"
   end
   
@@ -14,6 +15,7 @@ class RecipesController < ApplicationController
     if logged_in?
       erb :'/recipes/new.html'
     else
+      flash[:error] = 'You must be logged in to create a recipe'
       redirect '/login'
     end
   end
@@ -50,13 +52,14 @@ class RecipesController < ApplicationController
     join_other_ingredient = @recipe.recipe_other_ingredients.last
     add_time_measurement_and_measurement_quantity_to_join_table_record(join_other_ingredient, index,:other_ingredient)
   end
-
+  flash[:notice] = "Recipe Created"
   redirect '/recipes'
 else 
   @hop = params[:hop][0]
   @fermentable = params[:fermentable][0]
   @yeast = params[:yeast][0]
   @other_ingredient = params[:other_ingredient][0]
+
   erb :'recipes/new.html'
 end
 end
@@ -69,6 +72,7 @@ get '/recipes/:id' do
   if @recipe
     erb :'/recipes/show.html'
   else
+    flash[:error] = 'Recipe does not exist'
     redirect '/recipes'
   end
 end
@@ -78,6 +82,7 @@ get '/recipes/:id/edit' do
   if current_user == @recipe.user
     erb :'/recipes/edit.html'
   else
+    flash[:error] = "You don't have access to that Recipe. Sign in to your account to see it."
     redirect '/login'
   end
 end
@@ -98,6 +103,7 @@ patch '/recipes/:id' do
   
     update_existing_recipe_other_ingredient_records!
     add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
+    flash[:notice] = "Recipe updated successfully "
     redirect "/recipes/#{@recipe.id}"
   else
     erb :'/recipes/edit.html'
@@ -106,8 +112,14 @@ end
 
 delete '/recipes/:id/delete' do
   set_recipe
-  @recipe.destroy
-  redirect '/recipes'
+  if current_user == @recipe.user
+    @recipe.destroy
+    flash[:notice] = "Recipe deleted successfully "
+    redirect '/recipes'
+  else
+    flash[:error] = "You don't have access to that Recipe. Sign in to your account to see it."
+    redirect '/login'
+  end
 end
 
   helpers do
