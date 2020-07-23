@@ -154,12 +154,15 @@ end
     end
     def add_new_hops_and_establish_recipe_hop_record!
       index = @hops_count
-      while index < params[:hop].count
-        hop = Hop.find_or_create_by(name: params[:hop][index][:name], form: params[:hop][index][:form], alpha_acid: params[:hop][index][:alpha_acid])
-        @recipe.hops << hop
-        join_hop = @recipe.recipe_hops.last
-        add_time_measurement_and_measurement_quantity_to_join_table_record(join_hop, index, :hop)
-        index += 1
+      
+      unless params[:hop][index][:name] == ''
+        while index < params[:hop].count
+          hop = Hop.find_or_create_by(name: params[:hop][index][:name], form: params[:hop][index][:form], alpha_acid: params[:hop][index][:alpha_acid])
+          @recipe.hops << hop
+          join_hop = @recipe.recipe_hops.last
+          add_time_measurement_and_measurement_quantity_to_join_table_record(join_hop, index, :hop)
+          index += 1
+        end
       end
     end
 
@@ -176,12 +179,14 @@ end
     end
     def add_new_fermentable_and_establish_recipe_fermentable_record!
       index = @fermentables_count
-      while index < params[:fermentable].count
-        fermentable = Fermentable.find_or_create_by(name: params[:fermentable][index][:name])
-        @recipe.fermentables << fermentable
-        join_fermentable = @recipe.recipe_fermentables.last
-        add_time_measurement_and_measurement_quantity_to_join_table_record(join_fermentable, index, :fermentable)
-        index += 1
+      unless params[:fermentable][index][:name] == ''
+        while index < params[:fermentable].count
+          fermentable = Fermentable.find_or_create_by(name: params[:fermentable][index][:name])
+          @recipe.fermentables << fermentable
+          join_fermentable = @recipe.recipe_fermentables.last
+          add_time_measurement_and_measurement_quantity_to_join_table_record(join_fermentable, index, :fermentable)
+          index += 1
+        end
       end
     end
     def update_existing_recipe_yeast_records! 
@@ -197,12 +202,14 @@ end
     end
     def add_new_yeast_and_establish_recipe_yeast_record!
       index = @yeasts_count
-      while index < params[:yeast].count
-        yeast = Yeast.find_or_create_by(name: params[:yeast][index][:name])
-        @recipe.yeasts << yeast
-        join_yeast = @recipe.recipe_yeasts.last
-        add_time_measurement_and_measurement_quantity_to_join_table_record(join_yeast, index, :yeast)
-        index += 1
+      unless params[:yeast][index][:name] == ''
+        while index < params[:yeast].count
+          yeast = Yeast.find_or_create_by(name: params[:yeast][index][:name])
+          @recipe.yeasts << yeast
+          join_yeast = @recipe.recipe_yeasts.last
+          add_time_measurement_and_measurement_quantity_to_join_table_record(join_yeast, index, :yeast)
+          index += 1
+        end
       end
     end
     def update_existing_recipe_other_ingredient_records! 
@@ -218,12 +225,14 @@ end
     end
     def add_new_other_ingredient_and_establish_recipe_other_ingredient_record!
       index = @other_ingredients_count
-      while index < params[:other_ingredient].count
-        other_ingredient = OtherIngredient.find_or_create_by(name: params[:other_ingredient][index][:name])
-        @recipe.other_ingredients << other_ingredient
-        join_other_ingredient = @recipe.recipe_other_ingredients.last
-        add_time_measurement_and_measurement_quantity_to_join_table_record(join_other_ingredient, index, :other_ingredient)
-        index += 1
+      unless params[:other_ingredient][index][:name] == ''
+        while index < params[:other_ingredient].count
+          other_ingredient = OtherIngredient.find_or_create_by(name: params[:other_ingredient][index][:name])
+          @recipe.other_ingredients << other_ingredient
+          join_other_ingredient = @recipe.recipe_other_ingredients.last
+          add_time_measurement_and_measurement_quantity_to_join_table_record(join_other_ingredient, index, :other_ingredient)
+          index += 1
+        end
       end
     end
   end
