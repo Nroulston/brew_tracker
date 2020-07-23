@@ -1,7 +1,7 @@
 class RecipesController < ApplicationController
   use Rack::Flash
   get "/recipes" do
-    binding.pry
+    
     erb :"/recipes/index.html"
   end
   
