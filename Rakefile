@@ -9,8 +9,8 @@ task :console do
   Pry.start
 end
 
-# desc "Drops both development and testing databases"
-# task :drop_all do  
-#   puts "Dropping the databases...."  system "rm db/development.sqlite && rm db/schema.rb"
-# end
+desc "Drops both development and testing databases"
+task :drop_all do  
+  puts "Dropping the databases...."  system "rm db/development.sqlite && rm db/schema.rb"
+end
 
