@@ -1,8 +1,6 @@
 class SessionsController < ApplicationController
   use Rack::Flash
-  get '/index' do
-    erb :'sessions/index.html'
-  end
+  
   
   get '/login' do
     @user = User.new
