@@ -2,16 +2,16 @@
 <div class="row center">
             
 <%unless current_user.brew_logs.empty?%>
-  <%current_user.brew_logs.select(:recipe_id).distinct.each do |log|%>
+  <%current_user.recipe_copies.distinct.each do |recipe|%>
       <div class="col s12 m6 l6">
         <div class="card blue-grey  ">
           <div class="card-content white-text">
-            <span class="card-title">Recipe Name: <%=log.recipe.name%></span>
-            <p>Created By: <%=log.recipe.user.name%></p><br>
+            <span class="card-title">Recipe Name: <%=recipe.name%></span>
+            <p>Created By: <%=recipe.user.name%></p><br>
             <span class="card-title">Your Logs:</span>
             <div class="row">
               <ul class="collection">
-                <%current_user.brew_logs.where(recipe_id: log.recipe.id).each do |log|%>
+                <%recipe.brew_logs.where(user_id: current_user.id).each do |log|%>
                 <li class="collection-item black-text"><div>Brewed on <%=log.created_at%><a href="/brew_logs/<%=log.id%>" class="secondary-content"><i class="material-icons">send</i></a></div></li>
                 <%end%>
               </ul>
@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class=" center card-action blue-grey lighten-1">
-            <a href="/recipes/<%=log.recipe.id%>" id="show_recipe-button" class="btn-small waves-effect waves-light orange accent-2"> <i class="material-icons left">more</i>More Recipe Info</a>
+            <a href="/recipes/<%=recipe.id%>" id="show_recipe-button" class="btn-small waves-effect waves-light orange accent-2"> <i class="material-icons left">more</i>More Recipe Info</a>
           </div>
         </div>
       </div>
