@@ -1,6 +1,13 @@
+# Brew Tracker
 ## Usage
 
 Welcome to BrewTracker. This is a simplistic way to create homebrew recipes, and keep track of brew days with brew logs for each recipe. You can check out other peoples recipes and give a whirl at brewing them yourself with a brew log that is your own. For now if you want to add multiple ingredients of a certain type you have to edit the Recipe or BrewLog after it is initially created. A bit annoying, but hey it is MVP philosophy. 
+
+
+
+## Prerequisites
+*You have installed the following
+  -Ruby 2.6.1
 
 ## Install Instructions
 
